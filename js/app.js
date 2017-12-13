@@ -4,6 +4,7 @@ var config = require('./config');
 var cmd = require('node-command-line');
 
 var Contexto = require("../../Plataforma-core/Contexto");
+var CoreRepository = require("../../Plataforma-SDK/services/CoreRepository");
 
 
 // Dependencies
@@ -35,24 +36,34 @@ app.post("/executor", function(req, res) {
   contexto.instancia = evento.instancia;
   contexto.evento = evento;
 
-  var args = { data: req.body, headers: { "Content-Type": "application/json" } };
-  
-  var urlMemoryCreate = config.processMemoryUrl + "transferencia/create";
+  // TODO ainda não está recuperando o dataset
+    
+  if (!contexto.instancia) {
 
-  var client = new Client();
-  var reqExec = client.post(urlMemoryCreate, args, function (data, response) {
-    console.log("Contexto salvo da memória de processo com sucesso." + data.instanciaId);
-    execute(evento.name, data.instanceId);
-  });
-  reqExec.on('error', function (err) {
-    console.log('request error', err);
-  });
+    var args = { data: req.body, headers: { "Content-Type": "application/json" } };
+  
+    var coreRepository = new CoreRepository();
+    var instance = coreRepository.getProcessInstance(data.instanciaId);
+
+    var urlMemoryCreate = config.processMemoryUrl + instance.processo + "/create";
+
+    var client = new Client();
+    var reqExec = client.post(urlMemoryCreate, args, function (data, response) {
+      console.log("Contexto salvo da memória de processo com sucesso." + data.instanciaId);
+      execute(data.instanceId);
+    });
+    reqExec.on('error', function (err) {
+      console.log('request error', err);
+    });
+  } else {
+    execute(data.instanceId);
+  }
   
   res.send("OK");
 });
 
-function execute(processName, instanceId) {
-  var commandLine = "node " + config.pathExecuteWorker + " " + processName + " " + instanceId;
+function execute(instanceId) {
+  var commandLine = "node " + config.pathExecuteWorker + " " + instanceId;
   console.log("commandLine: " + commandLine);
   cmd.run(commandLine);
 }

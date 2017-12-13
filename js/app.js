@@ -1,5 +1,10 @@
+var Client = require('node-rest-client').Client;
+
 var config = require('./config');
 var cmd = require('node-command-line');
+
+var Contexto = require("../../Plataforma-core/Contexto");
+
 
 // Dependencies
 // ===========================================================
@@ -22,15 +27,35 @@ app.use(bodyParser.json());
  */
 app.post("/executor", function(req, res) {
 
-  console.log("___ENTER POST EVENT___" + JSON.stringify(req.body));
+  console.log("___ENTER POST EXECUTOR___" + JSON.stringify(req.body));
 
-  var commandLine = "node " + config.pathExecuteWorker + " " + req.body.name;
-  console.log("commandLine: " + commandLine);
-  cmd.run(commandLine);
+  //TODO cria o contexto e manda para processmemory
+  var evento = req.body;
+  var contexto = new Contexto();
+  contexto.instancia = evento.instancia;
+  contexto.evento = evento;
+
+  var args = { data: req.body, headers: { "Content-Type": "application/json" } };
+  
+  var urlMemoryCreate = config.processMemoryUrl + "transferencia/create";
+
+  var client = new Client();
+  var reqExec = client.post(urlMemoryCreate, args, function (data, response) {
+    console.log("Contexto salvo da memória de processo com sucesso." + data.instanciaId);
+    execute(evento.name, data.instanceId);
+  });
+  reqExec.on('error', function (err) {
+    console.log('request error', err);
+  });
   
   res.send("OK");
 });
 
+function execute(processName, instanceId) {
+  var commandLine = "node " + config.pathExecuteWorker + " " + processName + " " + instanceId;
+  console.log("commandLine: " + commandLine);
+  cmd.run(commandLine);
+}
 
 // Listener
 // ===========================================================

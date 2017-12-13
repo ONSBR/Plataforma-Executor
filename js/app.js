@@ -37,19 +37,22 @@ app.post("/executor", function(req, res) {
   contexto.evento = evento;
 
   // TODO ainda não está recuperando o dataset
-    
+  
   if (!contexto.instancia) {
 
     var args = { data: req.body, headers: { "Content-Type": "application/json" } };
   
-    var coreRepository = new CoreRepository();
-    var instance = coreRepository.getProcessInstance(data.instanciaId);
+    var urlMemoryCreate = config.processMemoryUrl + evento.processName + "/create";
 
-    var urlMemoryCreate = config.processMemoryUrl + instance.processo + "/create";
+    console.log("urlMemoryCreate: " +urlMemoryCreate);
 
     var client = new Client();
     var reqExec = client.post(urlMemoryCreate, args, function (data, response) {
-      console.log("Contexto salvo da memória de processo com sucesso." + data.instanciaId);
+
+      var coreRepository = new CoreRepository();
+      coreRepository.addProcessInstance(data.instanceId, evento.processName, evento.data);
+  
+      console.log("Contexto salvo da memória de processo com sucesso." + data.instanceId);
       execute(data.instanceId);
     });
     reqExec.on('error', function (err) {

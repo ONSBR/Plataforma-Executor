@@ -1,6 +1,6 @@
 # Engine de execução de processos da plataforma.
 
-* Por favor, utilizem branches para commitar código não relacionado ao projeto.
+* Por favor, utilizem branches ou criem seus próprios forks para commitar código não relacionado ao projeto.
 
 
 

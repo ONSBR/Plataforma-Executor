@@ -4,6 +4,7 @@ var config = require('./config');
 var cmd = require('node-command-line');
 
 var Contexto = require("../../Plataforma-core/Contexto");
+var DataSet = require("../../Plataforma-core/DataSet");
 var CoreRepository = require("../../Plataforma-SDK/services/CoreRepository");
 
 
@@ -35,12 +36,13 @@ app.post("/executor", function(req, res) {
   var contexto = new Contexto();
   contexto.instancia = evento.instancia;
   contexto.evento = evento;
+  contexto.dataSet = new DataSet();
 
   // TODO ainda não está recuperando o dataset
   
   if (!contexto.instancia) {
 
-    var args = { data: req.body, headers: { "Content-Type": "application/json" } };
+    var args = { data: contexto, headers: { "Content-Type": "application/json" } };
   
     var urlMemoryCreate = config.processMemoryUrl + evento.processName + "/create";
 

@@ -39,7 +39,7 @@ app.post("/executor", function(req, res) {
   contexto.dataSet = new DataSet();
 
   // TODO ainda não está recuperando o dataset
-  
+    
   if (!contexto.instancia) {
 
     var args = { data: contexto, headers: { "Content-Type": "application/json" } };
@@ -47,7 +47,7 @@ app.post("/executor", function(req, res) {
     var urlMemoryCreate = config.processMemoryUrl + evento.processName + "/create";
 
     console.log("urlMemoryCreate: " +urlMemoryCreate);
-
+ 
     var client = new Client();
     var reqExec = client.post(urlMemoryCreate, args, function (data, response) {
 

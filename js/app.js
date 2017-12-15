@@ -68,7 +68,7 @@ app.post("/executor", function(req, res) {
 });
 
 function execute(instanceId) {
-  var commandLine = "node " + config.pathExecuteWorker + " " + instanceId;
+  var commandLine = "node " + config.pathExecuteWorker + " " + instanceId;
   console.log("commandLine: " + commandLine);
   cmd.run(commandLine);
 }

@@ -11,7 +11,7 @@
 
     $ make install
 
-> The application will be up and running inside a new Docker Container named plataforma-runner.```
+> The application will be up and running inside a new Docker Container named plataforma-runner.
 
 
 #### Stopping container:

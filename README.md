@@ -5,7 +5,7 @@
 
 
 [Docker](https://www.docker.com) is the fastest way to run the app. If you don have docker installed, please refer to the
-[Project Documentation](https://docs.docker.com/engine/installation/https://docs.docker.com/engine/installation/>)
+[Project Documentation](https://docs.docker.com/engine/installation/)
 
 #### Building and starting the application container:
 

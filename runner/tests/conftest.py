@@ -10,7 +10,7 @@ class TestClient(testing.TestClient):
     """
     def __init__(self):
         super().__init__(api)
-   
+
     def _split_response(self, response):
         return response.status, json.loads(response.content)
 
@@ -20,7 +20,8 @@ class TestClient(testing.TestClient):
 
     def put(self, uri, data):
         return self._split_response(
-            self.simulate_put(uri, **data))
+            self.simulate_put(uri, body=json.dumps(data)))
+
 
 @pytest.fixture
 def client():

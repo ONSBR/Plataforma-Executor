@@ -2,13 +2,12 @@
 
 
 #### Installation
-^^^^
+
 
 [Docker](https://www.docker.com) is the fastest way to run the app. If you don have docker installed, please refer to the
 [Project Documentation](https://docs.docker.com/engine/installation/https://docs.docker.com/engine/installation/>)
 
 #### Building and starting the application container.
----
 
     $ make install
 
@@ -16,18 +15,15 @@
 
 
 #### Stopping container.
----
 
 	$ make stop
     
   
 #### Removing container and image.
----
 	
     $ make destroy
 
 	
 #### Basic configuration and use
----
 
 The rest api will be available on port 8000.

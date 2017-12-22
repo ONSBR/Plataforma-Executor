@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "plataforma-core": "git+https://github.com/ONSBR/Plataforma-core",
+    "plataforma-sdk": "git+https://github.com/ONSBR/Plataforma-SDK",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "node-command-line": "^1.0.2",

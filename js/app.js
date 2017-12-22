@@ -3,9 +3,9 @@ var Client = require('node-rest-client').Client;
 var config = require('./config');
 var cmd = require('node-command-line');
 
-var Contexto = require("../../Plataforma-core/Contexto");
-var DataSet = require("../../Plataforma-core/DataSet");
-var CoreRepository = require("../../Plataforma-SDK/services/CoreRepository");
+var Contexto = require("plataforma-core/Contexto");
+var DataSet = require("plataforma-core/DataSet");
+var CoreRepository = require("plataforma-sdk/services/CoreRepository");
 
 
 // Dependencies

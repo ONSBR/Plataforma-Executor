@@ -3,9 +3,9 @@ var Client = require('node-rest-client').Client;
 var config = require('./config');
 var cmd = require('node-command-line');
 
-var Contexto = require("../../Plataforma-core/Contexto");
-var DataSet = require("../../Plataforma-core/DataSet");
-var CoreRepository = require("../../Plataforma-SDK/services/CoreRepository");
+var Contexto = require("plataforma-core/Contexto");
+var DataSet = require("plataforma-core/DataSet");
+var CoreRepository = require("plataforma-sdk/services/CoreRepository");
 
 
 // Dependencies
@@ -54,7 +54,7 @@ app.post("/executor", function(req, res) {
       var coreRepository = new CoreRepository();
       coreRepository.addProcessInstance(data.instanceId, evento.processName, evento.data);
   
-      console.log("Contexto salvo da memória de processo com sucesso." + data.instanceId);
+      console.log("Contexto salvo na memória de processo com sucesso." + data.instanceId);
       execute(data.instanceId);
     });
     reqExec.on('error', function (err) {

@@ -44,7 +44,9 @@ app.post("/executor", function(req, res) {
 
     var args = { data: contexto, headers: { "Content-Type": "application/json" } };
   
-    var urlMemoryCreate = config.processMemoryUrl + evento.processName + "/create";
+    contexto.instancia = guid();
+
+    var urlMemoryCreate = config.processMemoryUrl + evento.processName + "/" + contexto.instancia + "/create";
 
     console.log("urlMemoryCreate: " +urlMemoryCreate);
  
@@ -55,13 +57,13 @@ app.post("/executor", function(req, res) {
       coreRepository.addProcessInstance(data.instanceId, evento.processName, evento.data);
   
       console.log("Contexto salvo na memória de processo com sucesso." + data.instanceId);
-      execute(data.instanceId);
+      execute(contexto.instancia);
     });
     reqExec.on('error', function (err) {
       console.log('request error', err);
     });
   } else {
-    execute(data.instanceId);
+    execute(contexto.instancia);
   }
   
   res.send("OK");
@@ -71,6 +73,16 @@ function execute(instanceId) {
   var commandLine = "node " + config.pathExecuteWorker + " " + instanceId;
   console.log("commandLine: " + commandLine);
   cmd.run(commandLine);
+}
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
 }
 
 // Listener

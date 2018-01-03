@@ -1,7 +1,8 @@
 from unittest.mock import Mock
 import json
 import falcon
-from runner import api
+from runner import api, models, resources
+from settings import PROCESSOR as processor
 
 
 def test_list_enqueued_events(client):
@@ -16,7 +17,7 @@ def test_list_enqueued_events(client):
 
 def test_put_new_event(client):
     # mock
-    api.Processor = Mock()
+    processor.process = Mock()
 
     data = {
         "name": "fake event",
@@ -30,7 +31,7 @@ def test_put_new_event(client):
     status, resp_body = client.put('/event', data)
 
     # assert
-    api.Processor.process.assert_called_once()
+    processor.process.assert_called_once()
     assert status == falcon.HTTP_ACCEPTED
     assert resp_body['id'] is not None
 
@@ -46,7 +47,7 @@ def test_parse_event_from_json():
     })
 
     # act
-    event = api.Event.from_json(data)
+    event = models.Event.from_json(data)
 
     # assert
     assert event.name == "fake event"
@@ -57,7 +58,7 @@ def test_parse_event_from_json():
 
 def test_event_to_json():
     # mock
-    event = api.Event(name="fake event", pars=None)
+    event = models.Event(name="fake event", pars=None)
 
     # act
     event_json = event.to_json()

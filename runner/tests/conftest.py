@@ -1,15 +1,15 @@
 import json
-from falcon import testing
 import pytest
+from falcon import testing
 
-from runner.api import api
+from runner.api import runner_api
 
 
 class TestClient(testing.TestClient):
     """Rest Test Client
     """
     def __init__(self):
-        super().__init__(api)
+        super().__init__(runner_api)
 
     def _split_response(self, response):
         return response.status, json.loads(response.content)

@@ -1,6 +1,6 @@
 import json
 import falcon
-import settings
+from runner import settings
 from runner.models import Event
 
 

@@ -2,7 +2,7 @@ from unittest.mock import Mock
 import json
 import falcon
 from runner import api, models, resources
-from settings import PROCESSOR as processor
+from runner.settings import PROCESSOR as processor
 
 
 def test_list_enqueued_events(client):

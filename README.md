@@ -43,6 +43,11 @@
 Once set, activate your virtual enviroment and inside the project directory, type:
 
     $ pip install -r requirements.txt
+
+
+#### Set docker registry URL:
+
+    export DOCKER_REGISTRY_URL = 'localhost'
     
     
 #### Executing tests:

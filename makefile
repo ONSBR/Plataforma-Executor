@@ -2,19 +2,17 @@ freeze:
 	@pip freeze > requirements.txt
 
 test:
-	@pytest -s runner
+	@pytest -s
 
 install:
-	@docker build -t plataforma-runner .
-	@docker run -d -p 5000:5000 --name plataforma-registry registry:2
-	@docker run -d -p 8000:8000 --name plataforma-runner plataforma-runner 
+	@docker-compose up -d
 
-run:
-	@docker start plataforma-registry plataforma-runner
+run: install
+
+up: install
 
 stop:
-	@docker stop plataforma-registry plataforma-runner
-
-destroy: stop
-	@docker rm plataforma-runner plataforma-registry
-	@docker rmi plataforma-runner registry:2
+	@docker-compose stop 
+	
+destroy: 
+	@docker-compose down

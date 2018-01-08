@@ -1,5 +1,7 @@
 from uuid import uuid4
 import json
+from collections import namedtuple
+
 
 class Event:
     """Event model
@@ -24,4 +26,6 @@ class Event:
         return {
             "id": str(self.id)
         }
+
+
 

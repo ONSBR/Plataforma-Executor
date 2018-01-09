@@ -104,7 +104,7 @@ function executeReprodutionByInstance(instanceId, evento) {
 
     var reqExec = client.post(urlMemoryCreate, args, function (data, response) {
 
-      coreRepository.addProcessInstance(data.instanceId, eventoReproducao.processName, eventoReproducao.data, eventoReproducao.responsavel);
+      coreRepository.addProcessInstance(data.instanceId, eventoReproducao.processName, eventoReproducao.data, eventoReproducao.responsavel, reproducaoId);
 
       coreRepository.addReproduction(reproducao);
   

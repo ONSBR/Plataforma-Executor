@@ -1,17 +1,4 @@
-from collections import namedtuple
-
-
-# models
-Process = namedtuple("Process", [
-    "name",
-    "container",
-])
-
-
-Container = namedtuple("Container", [
-    "name",
-    "tag",
-])
+from sdk.models import Process, Container
 
 
 def get_processes_by_event(event):
@@ -22,9 +9,13 @@ def get_processes_by_event(event):
     # TODO: retrieve from core api.
 
     return [
-        Container(
+        Process(
             name="Dummy Process",
-            tag="1.0",
-            operation="Dummy Operation"
+            instance=None,
+            container=Container(
+                name="Dummy Process",
+                tag="1.0",
+                operation="Dummy Operation"
+            )
         )
     ]

@@ -1,5 +1,6 @@
 import falcon
 from runner.resources import EventResource
+from runner import settings
 
 
 runner_api = falcon.API()

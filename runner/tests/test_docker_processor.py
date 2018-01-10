@@ -4,17 +4,20 @@ import docker
 from sdk import coreapi
 
 from runner import settings
-from runner.processors import Processor
+from runner.processors import DockerProcessor
 
 
 @mock.patch('docker.client.ContainerCollection')
 @mock.patch('sdk.coreapi.get_processes_by_event')
 def test_execute_container(mock_get_processes_by_event, mock_containers):
     # mock
-    docker_processor = Processor()
+    docker_processor = DockerProcessor()
     mock_get_processes_by_event.return_value = [
         coreapi.Process(
+            id="id",
             name="Dummy Process",
+            solution="Solution",
+            instance=None,
             container=coreapi.Container(
                 name="dummy_process",
                 tag="latest",

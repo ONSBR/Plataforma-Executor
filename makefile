@@ -2,7 +2,7 @@ freeze:
 	@pip freeze > requirements.txt
 
 test:
-	@pytest -s
+	@pytest -s --cov=.
 
 install:
 	@docker-compose up -d

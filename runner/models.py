@@ -1,15 +1,11 @@
-from uuid import uuid4
 import json
+from uuid import uuid4
 from collections import namedtuple
 
 
-class Event:
-    """Event model
-    """
-    def __init__(self, name, pars):
+class Model:
+    def __init__(self):
         self.id = uuid4()
-        self.name = name
-        self.pars = pars
 
     @classmethod
     def from_json(cls, data):
@@ -26,6 +22,15 @@ class Event:
         return {
             "id": str(self.id)
         }
+
+
+class Event(Model):
+    """Event model
+    """
+    def __init__(self, name, pars):
+        super().__init__()
+        self.name = name
+        self.pars = pars
 
 
 

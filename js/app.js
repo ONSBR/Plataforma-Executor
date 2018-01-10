@@ -28,10 +28,76 @@ var coreRepository = new CoreRepository();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Add headers
+app.use(function (req, res, next) {
+  
+      // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', false);
+
+    // Pass to next layer of middleware
+    next();
+});
+
 
 app.get("/executor", function(req, res) {
   res.send("OK");
 });
+
+// TODO temporário até a api do core ser toda obtida via serviço, pois a base local está apresentando erro no presentation
+app.get("/comparereproduction/:reproductionId", function(req, res) {
+  
+  var reproductionId = req.params.reproductionId;
+
+  console.log("___ENTER PUT REPRODUCTION___" + reproductionId); 
+
+  var reproducao = coreRepository.getReproduction(reproductionId);
+
+  var processInstance = coreRepository.getProcessInstance(reproducao.instanciaOriginal);
+
+  var args = { headers: { "Content-Type": "application/json" } };
+
+  var urlGetProcessMemoryOriginal = config.processMemoryUrl + processInstance.processo + "/" + reproducao.instanciaOriginal + "/history";
+  var client = new Client();
+
+  var memoriasOriginal = null;
+
+  var reqMemoriasOriginal = client.get(urlGetProcessMemoryOriginal, function (data, response) {
+    
+      var memoriasOriginal = data;
+
+      var urlGetProcessMemoryReproc = config.processMemoryUrl + processInstance.processo + "/" + reproducao.instanciaReproducao + "/history";
+      
+      var reqMemoriasReproc = client.get(urlGetProcessMemoryReproc, function (data, response) {
+          
+          var memoriasReproc = data;
+          
+          var retorno = { memoriaProcessoOriginal: memoriasOriginal, memoriaProcessoReproducao: memoriasReproc};
+          retorno.jsonMemoryOrigem
+      
+          res.send(retorno);
+
+      });
+      reqMemoriasReproc.on('error', function (err) {
+          console.log('request error', err);
+      });
+
+  });
+  reqMemoriasOriginal.on('error', function (err) {
+      console.log('request error', err);
+  });
+
+});
+
 
 /**
  * Recebe os eventos para serem enviados ao executor,
@@ -107,7 +173,7 @@ function executeReprodutionByInstance(instanceId, evento) {
       coreRepository.addProcessInstance(data.instanceId, eventoReproducao.processName, eventoReproducao.data, eventoReproducao.responsavel, reproducaoId);
 
       coreRepository.addReproduction(reproducao);
-  
+
       console.log("Contexto salvo na memória de processo com sucesso." + data.instanceId);
       execute(contexto.instancia);
     });

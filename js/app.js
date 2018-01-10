@@ -170,11 +170,11 @@ function executeReprodutionByInstance(instanceId, evento) {
 
     var reqExec = client.post(urlMemoryCreate, args, function (data, response) {
 
-      coreRepository.addProcessInstance(data.instanceId, eventoReproducao.processName, eventoReproducao.data, eventoReproducao.responsavel, reproducaoId);
+      coreRepository.addProcessInstance(contexto.instancia, eventoReproducao.processName, eventoReproducao.data, eventoReproducao.responsavel, reproducaoId);
 
       coreRepository.addReproduction(reproducao);
 
-      console.log("Contexto salvo na memória de processo com sucesso." + data.instanceId);
+      console.log("Contexto salvo na memória de processo com sucesso." + contexto.instancia);
       execute(contexto.instancia);
     });
     reqExec.on('error', function (err) {
@@ -208,9 +208,9 @@ function executeBusinessEvent(evento) {
     var client = new Client();
     var reqExec = client.post(urlMemoryCreate, args, function (data, response) {
 
-      coreRepository.addProcessInstance(data.instanceId, evento.processName, evento.data, evento.responsavel);
+      coreRepository.addProcessInstance(contexto.instancia, evento.processName, evento.data, evento.responsavel);
   
-      console.log("Contexto salvo na memória de processo com sucesso." + data.instanceId);
+      console.log("Contexto salvo na memória de processo com sucesso." + contexto.instancia);
       execute(contexto.instancia);
     });
     reqExec.on('error', function (err) {

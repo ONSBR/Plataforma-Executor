@@ -141,7 +141,7 @@ function executeReprodutionByInstance(instanceId, evento) {
   console.log("___instance___" + instanceId + "/ " + JSON.stringify(instance));
   var processName = instance.processo;
 
-  var urlGetProcessMemory = config.processMemoryUrl + processName + "/" + instanceId + "/head";
+  var urlGetProcessMemory = config.processMemoryUrl + processName + "/" + instanceId + "/first";
   var client = new Client();
 
   client.get(urlGetProcessMemory, function (data, response) {

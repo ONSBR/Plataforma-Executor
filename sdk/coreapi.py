@@ -12,6 +12,7 @@ def get_processes_by_event(event):
         Process(
             name="Dummy Process",
             instance=None,
+            systemid="saat",
             container=Container(
                 name="Dummy Process",
                 tag="1.0",

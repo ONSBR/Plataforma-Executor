@@ -1,7 +1,7 @@
 import json
 import falcon
 from runner import settings
-from runner.models import Event
+from sdk.models import Event
 
 
 class EventResource:
@@ -28,6 +28,5 @@ class EventResource:
         #   the event must be enqueued on celery or somewhere
         #   else and the process must be invoked asynchronously.
         settings.PROCESSOR.process(event)
-        response.media = event.to_json()
         response.status = falcon.HTTP_ACCEPTED
 

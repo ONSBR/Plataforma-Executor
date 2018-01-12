@@ -2,23 +2,29 @@ import requests
 
 
 class VERBS:
+    """HTTP Verbs
+    """
     GET = requests.get
 
 
 class ExecutionResult:
-    def __init__(self, status_code, has_error=False, error_message=None, data=None):
+    """HTTP requests friendly result.
+    """
+    def __init__(self, status_code, has_error=False,
+                 error_message=None, data=None):
         self.status_code = status_code
         self.has_error = has_error
         self.error_message = error_message
         self.data = data
 
     @classmethod
-    def ok(cls, status_code, data=None):
+    def ok(cls, status_code=200, data=None):
         return cls(status_code=status_code, data=data)
 
     @classmethod
     def error(cls, status_code, message, data=None):
-        return cls(status_code=status_code, has_error=True, error_message=message, data=data)
+        return cls(status_code=status_code, has_error=True,
+                   error_message=message, data=data)
 
 
 class HttpClient:
@@ -42,4 +48,3 @@ class HttpClient:
     @classmethod
     def get(cls, uri):
         return cls._request(uri=uri, verb=VERBS.GET)
-

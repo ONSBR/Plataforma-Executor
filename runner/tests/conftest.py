@@ -12,7 +12,7 @@ class TestClient(testing.TestClient):
         super().__init__(runner_api)
 
     def _split_response(self, response):
-        return response.status, json.loads(response.content)
+        return response.status, json.loads(response.content) if response.content else None
 
     def get(self, uri):
         return self._split_response(

@@ -18,6 +18,7 @@ class DockerProcessor:
 
         for process in processes:
             if not process.instance:
+                #  TODO: create process instance using coreapi.
                 process_memory.create_memory(process)
 
             self._run_container(process.container)

@@ -5,9 +5,9 @@ from sdk.utils import HttpClient
 
 def create_memory(process):
     result = HttpClient.get(
-        "{settings.PROCESS_MEMORY_URL}/{process.solution}/{process.instance}/create")
+        "{settings.PROCESS_MEMORY_URL}/{process.processId}/{process.instance}/create")
 
-    if result.has_error:
-        raise HTTPError()
-        # TODO: log and raise an error.
-        pass
+    if not result.has_error:
+        return result.data
+
+    # TODO: log error

@@ -5,6 +5,7 @@ class VERBS:
     """HTTP Verbs
     """
     GET = requests.get
+    POST = requests.post
 
 
 class ExecutionResult:
@@ -31,8 +32,8 @@ class HttpClient:
     """Simple client to interact with HTTP endpoints.
     """
     @staticmethod
-    def _request(uri, verb):
-        r = verb(uri)
+    def _request(uri, verb, **kwargs):
+        r = verb(uri, **kwargs)
 
         try:
             r.raise_for_status()
@@ -48,3 +49,7 @@ class HttpClient:
     @classmethod
     def get(cls, uri):
         return cls._request(uri=uri, verb=VERBS.GET)
+
+    @classmethod
+    def post(cls, uri, data):
+        return cls._request(uri=uri, verb=VERBS.POST, json=data)

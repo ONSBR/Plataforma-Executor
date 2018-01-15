@@ -13,21 +13,26 @@ class DockerProcessor:
 
     def process(self, event):
         """
+        Process receives an event an tries to get a subcribed operation.
         """
-        processes = coreapi.get_processes_by_event(event)
+        operation = coreapi.get_operation_by_event(event)
 
-        for process in processes:
-            if not process.instance:
-                #  TODO: create process instance using coreapi.
-                process_memory.create_memory(process)
+        if not operation:
+            # TODO: log an event without associated operations.
+            return
 
-            self._run_container(process.container)
+        if not event.instanceId:
+            process_instance = coreapi.create_process_instance(operation.processId)
+            process_memory.create_memory(process_instance)
 
-    def _run_container(self, container_info):
+        self._run_container(process_instance, operation)
+
+    def _run_container(self, process_instance, operation):
         """
         """
         self.client.containers.run(
-            f"{settings.DOCKER_REGISTRY_URL}:{settings.DOCKER_REGISTRY_PORT}/{container_info.name}:{container_info.tag}",
+            operation.container,
+            f"{operation.name} {operation.systemId} {process_instance}",
             stdout=True,
             remove=True,
             detach=True,

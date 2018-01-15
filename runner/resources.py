@@ -22,6 +22,7 @@ class EventResource:
     def on_put(self, request, response):
         """Enqueue a new event.
         """
+        import pdb; pdb.set_trace()
         event = Event(**request.media)
 
         # TODO:

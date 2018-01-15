@@ -16,3 +16,6 @@ stop:
 	
 destroy: 
 	@docker-compose down
+
+rundev:
+	@gunicorn -b :8000 runner.api:runner_api

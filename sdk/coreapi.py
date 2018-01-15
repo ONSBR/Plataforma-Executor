@@ -1,22 +1,41 @@
+import json
 from sdk.models import Process, Container
+from sdk.utils import HttpClient
+from sdk import settings
 
 
-def get_processes_by_event(event):
-    """ Retrieves a list of processes containing
-        operations subscribed to an event.
+def get_operation_by_event(event):
+    """ Retrieves the operation subscribed to an event.
     """
+    result = HttpClient.get(
+        f"{settings.COREAPI_URL}/core/operation?filter=byEvent&event={event.name}")
 
-    # TODO: retrieve from core api.
+    if not result.has_error and result.data:
+        return result.data[0]
 
-    return [
-        Process(
-            name="Dummy Process",
-            instance=None,
-            systemid="saat",
-            container=Container(
-                name="Dummy Process",
-                tag="1.0",
-                operation="Dummy Operation"
-            )
-        )
-    ]
+    # TODO: log error
+
+
+def create_process_instance(process_instance):
+    """creates a new process execution instance.
+    """
+    result = HttpClient.post(
+        f"{settings.COREAPI_URL}/core/persist",
+        data={
+            "systemId": process_instance.systemId,
+            "processId": process_instance.processId,
+            "startExecution": 1516045449619, # TODO: get datetime as javascript.
+            "status": "created",
+            "_metadata": {
+                "type": "processInstance",
+                "changeTrack": "create",
+            }
+        }
+    )
+
+    if not result.has_error:
+        return result.data
+
+    # TODO: log error
+
+

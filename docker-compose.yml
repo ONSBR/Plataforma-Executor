@@ -1,0 +1,10 @@
+version: '3'
+services: 
+  executor:
+    build: .
+    ports:
+      - "8000:8000"
+  registry:
+    image: "registry:2"
+
+

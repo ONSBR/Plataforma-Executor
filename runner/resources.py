@@ -23,6 +23,10 @@ class EventResource:
         """Enqueue a new event.
         """
         log('Received event', request.media)
+        raise
+
+
+
         event = Event(**request.media)
 
         # TODO:

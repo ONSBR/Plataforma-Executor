@@ -22,9 +22,12 @@ class EventResource:
     def on_put(self, request, response):
         """Enqueue a new event.
         """
-        log('Received event', request.media)
-        raise
+        import logging
+        logger = logging.getLogger()
 
+        logger.error('some error log')
+        log('Received event', request.media)
+        print("hello from print")
 
 
         event = Event(**request.media)

@@ -1,5 +1,6 @@
 import docker
 from sdk import coreapi, process_memory
+from sdk.utils import log
 from runner import settings
 
 
@@ -15,25 +16,44 @@ class DockerProcessor:
         """
         Process receives an event an tries to get a subcribed operation.
         """
+        log(f'Processing event {event}')
         operation = coreapi.get_operation_by_event(event)
 
         if not operation:
-            # TODO: log an event without associated operations.
+            log(f'There is no operation subscribed to this event.\nEvent: {event}\nOperation aborted.')
             return
 
-        if not event.instanceId:
-            process_instance = coreapi.create_process_instance(operation.processId)
-            process_memory.create_memory(process_instance)
+        if not event.instance_id:
+            process_instance = coreapi.create_process_instance(operation)
+
+            if not process_instance:
+                log(f'Could not create process instance.\nEvent: {event}\nData: {operation}.\nProcess aborted.')
+                return
+
+            if not process_memory.create_memory(process_instance, event.__dict__):
+                log(f'Could not create process memory.\nEvent: {event}\nProcess Instance: {process_instance}.\nProcess aborted.')
+                return
 
         self._run_container(process_instance, operation)
 
     def _run_container(self, process_instance, operation):
         """
         """
-        self.client.containers.run(
-            operation.container,
-            f"{operation.name} {operation.systemId} {process_instance}",
+        #  import subprocess
+        log('Executing process app.', operation)
+
+        #  cmd = f"docker run -d --rm {operation['container']}"
+        #  with subprocess.Popen(cmd.split(), stdout=subprocess.PIPE) as proc:
+            #  log(proc.stdout.read())
+
+        container = self.client.containers.run(
+            operation['container'],
             stdout=True,
             remove=True,
             detach=True,
         )
+
+        import time
+        time.sleep(5)
+
+        log('Container logs.', container.logs())

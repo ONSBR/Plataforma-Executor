@@ -20,7 +20,7 @@ def test_create_memory_fail():
        instance="instance", container=None)
 
     with mock.patch('sdk.process_memory.HttpClient') as mock_client:
-        mock_client.get.return_value = ExecutionResult.error("an error")
+        mock_client.get.return_value = ExecutionResult.error(message="an error", status_code=404)
         create_memory(process)
 
 

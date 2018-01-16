@@ -2,7 +2,7 @@ import json
 import falcon
 from runner import settings
 from sdk.models import Event
-
+from sdk.utils import log
 
 class EventResource:
     """
@@ -22,7 +22,7 @@ class EventResource:
     def on_put(self, request, response):
         """Enqueue a new event.
         """
-        import pdb; pdb.set_trace()
+        log('Received event', request.media)
         event = Event(**request.media)
 
         # TODO:

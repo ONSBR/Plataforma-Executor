@@ -1,6 +1,10 @@
 import requests
 
 
+def log(*args):
+    print(*args)
+
+
 class VERBS:
     """HTTP Verbs
     """
@@ -24,6 +28,7 @@ class ExecutionResult:
 
     @classmethod
     def error(cls, status_code, message, data=None):
+        log('HTTP request error', f'status code: {status_code}', f'message: {message}')
         return cls(status_code=status_code, has_error=True,
                    error_message=message, data=data)
 
@@ -33,23 +38,39 @@ class HttpClient:
     """
     @staticmethod
     def _request(uri, verb, **kwargs):
-        r = verb(uri, **kwargs)
-
         try:
+            r = verb(uri, **kwargs)
             r.raise_for_status()
-        except Exception as ex:
+        except requests.exceptions.ConnectionError:
+            return ExecutionResult.error(
+                status_code=0,
+                message=f'Could not connect to host: {uri}',)
+        except Exception:
             return ExecutionResult.error(
                 status_code=r.status_code,
-                message="Request failed",
-                data=r.json(),
-            )
+                message=f"Request failed",
+                data=r.json())
 
-        return ExecutionResult.ok(status_code=r.status_code, data=r.json())
+        data = None
+
+        if r.text:
+            data = r.json()
+
+        return ExecutionResult.ok(
+            status_code=r.status_code,
+            data=data)
 
     @classmethod
     def get(cls, uri):
         return cls._request(uri=uri, verb=VERBS.GET)
 
     @classmethod
-    def post(cls, uri, data):
-        return cls._request(uri=uri, verb=VERBS.POST, json=data)
+    def post(cls, uri, data=None):
+        args = {}
+
+        if data:
+            args['json'] = data
+
+        return cls._request(uri=uri, verb=VERBS.POST, **args)
+
+

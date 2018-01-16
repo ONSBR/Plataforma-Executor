@@ -1,11 +1,11 @@
 from collections import namedtuple
 
 
-Event = namedtuple("Event", [
-    "name",
-    "instance",
-    "payload",
-])
+class Event:
+    def __init__(self, name, **kwargs):
+        self.name = name
+        self.instance_id = kwargs.pop('instanceId', None)
+        self.payload = kwargs.pop('payload', dict())
 
 
 Process = namedtuple("Process", [

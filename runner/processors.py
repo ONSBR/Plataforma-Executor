@@ -10,7 +10,7 @@ class DockerProcessor:
     def __init__(self):
         """
         """
-        self.client = docker.from_env()
+        self.client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 
     def process(self, event):
         """

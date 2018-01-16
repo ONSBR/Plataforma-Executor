@@ -1,8 +1,10 @@
+import logging
 import requests
 
 
-def log(*args):
-    print(*args)
+def log(msg):
+    logger = logging.getLogger()
+    logger.error(msg)
 
 
 class VERBS:
@@ -28,7 +30,7 @@ class ExecutionResult:
 
     @classmethod
     def error(cls, status_code, message, data=None):
-        log('HTTP request error', f'status code: {status_code}', f'message: {message}')
+        log(f'HTTP request error\nstatus code: {status_code}\nmessage: {message}')
         return cls(status_code=status_code, has_error=True,
                    error_message=message, data=data)
 

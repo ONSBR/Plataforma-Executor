@@ -19,7 +19,7 @@ def get_operation_by_event(event):
 def create_process_instance(operation):
     """creates a new process execution instance.
     """
-    log("Create process instance", operation)
+    log(f"Create process instance {operation}")
 
     result = HttpClient.post(
         f"{settings.COREAPI_URL}:{settings.COREAPI_PORT}/core/persist",

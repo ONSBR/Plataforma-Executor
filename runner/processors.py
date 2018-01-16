@@ -40,7 +40,7 @@ class DockerProcessor:
         """
         """
         #  import subprocess
-        log('Executing process app.', operation)
+        log(f'Executing process app. {operation}')
 
         #  cmd = f"docker run -d --rm {operation['container']}"
         #  with subprocess.Popen(cmd.split(), stdout=subprocess.PIPE) as proc:
@@ -53,7 +53,4 @@ class DockerProcessor:
             detach=True,
         )
 
-        import time
-        time.sleep(5)
-
-        log('Container logs.', container.logs())
+        log(f'Container logs. {container.logs()}')

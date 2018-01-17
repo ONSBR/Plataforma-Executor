@@ -1,6 +1,7 @@
+import logging
 import mock
 import unittest
-from sdk.utils import HttpClient, VERBS, ExecutionResult
+from sdk.utils import HttpClient, VERBS, ExecutionResult, log
 import requests
 import json
 
@@ -32,4 +33,13 @@ class ExecutionResultTestCase(unittest.TestCase):
         assert execution_result.has_error == True
         assert execution_result.error_message == 'error'
         assert execution_result.status_code == 404
+
+
+def test_logger():
+    logger = logging.getLogger()
+
+    with mock.patch.object(logger, 'info') as mock_log:
+        log("message")
+        mock_log.assert_called_once_with('message')
+
 

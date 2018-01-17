@@ -23,28 +23,22 @@ class DockerProcessor:
             log(f'There is no operation subscribed to this event.\nEvent: {event}\nOperation aborted.')
             return
 
-        if not event.instance_id:
-            process_instance = coreapi.create_process_instance(operation)
+        process_instance = coreapi.create_process_instance(operation)
 
-            if not process_instance:
-                log(f'Could not create process instance.\nEvent: {event}\nData: {operation}.\nProcess aborted.')
-                return
+        if not process_instance:
+            log(f'Could not create process instance.\nEvent: {event}\nData: {operation}.\nProcess aborted.')
+            return
 
-            if not process_memory.create_memory(process_instance, event.__dict__):
-                log(f'Could not create process memory.\nEvent: {event}\nProcess Instance: {process_instance}.\nProcess aborted.')
-                return
+        if not process_memory.create_memory(process_instance):
+            log(f'Could not create process memory.\nEvent: {event}\nProcess Instance: {process_instance}.\nProcess aborted.')
+            return
 
         self._run_container(process_instance, operation)
 
     def _run_container(self, process_instance, operation):
         """
         """
-        #  import subprocess
         log(f'Executing process app. {operation}')
-
-        #  cmd = f"docker run -d --rm {operation['container']}"
-        #  with subprocess.Popen(cmd.split(), stdout=subprocess.PIPE) as proc:
-            #  log(proc.stdout.read())
 
         container = self.client.containers.run(
             operation['container'],

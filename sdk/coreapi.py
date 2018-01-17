@@ -23,7 +23,6 @@ def create_process_instance(operation):
 
     result = HttpClient.post(
         f"{settings.COREAPI_URL}:{settings.COREAPI_PORT}/core/persist",
-        #  f"https://pruu.herokuapp.com/dump/teste",
         data=[{
             "systemId": operation['systemId'],
             "processId": operation['processId'],
@@ -39,5 +38,4 @@ def create_process_instance(operation):
     if not result.has_error and result.data:
         return result.data[0]
 
-    return False
-
+    # TODO: log error

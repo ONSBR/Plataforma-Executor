@@ -43,7 +43,7 @@ class DockerProcessor:
         container = self.client.containers.run(
             operation['container'],
             environment={
-                "INSTANCE_ID": process_instance,
+                "INSTANCE_ID": process_instance["id"],
                 "PROCESS_ID": operation["processId"],
                 "SYSTEM_ID": operation["systemId"]
             },

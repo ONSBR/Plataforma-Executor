@@ -4,7 +4,7 @@ import requests
 
 def log(msg):
     logger = logging.getLogger()
-    logger.info(msg)
+    logger.error(msg)
 
 
 class VERBS:

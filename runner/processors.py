@@ -49,7 +49,7 @@ class DockerProcessor:
             },
             network='plataforma_network',
             stdout=True,
-            remove=True,
+            remove=False,
             detach=True,
         )
 

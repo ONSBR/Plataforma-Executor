@@ -5,6 +5,6 @@ from sdk.utils import HttpClient
 
 def create_memory(process,event):
     result = HttpClient.post(
-        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{process['id']}/create",event)
+        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{process['id']}/create",event.__dict__)
 
     return not result.has_error

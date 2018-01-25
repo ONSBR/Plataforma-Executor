@@ -29,7 +29,7 @@ class DockerProcessor:
             log(f'Could not create process instance.\nEvent: {event}\nData: {operation}.\nProcess aborted.')
             return
 
-        if not process_memory.create_memory(process_instance):
+        if not process_memory.create_memory(process_instance,event):
             log(f'Could not create process memory.\nEvent: {event}\nProcess Instance: {process_instance}.\nProcess aborted.')
             return
 

@@ -3,8 +3,8 @@ from sdk import settings, models
 from sdk.utils import HttpClient
 
 
-def create_memory(process):
+def create_memory(process,event):
     result = HttpClient.post(
-        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{process['id']}/create")
+        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{process['id']}/create",event)
 
     return not result.has_error

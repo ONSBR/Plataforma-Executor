@@ -47,7 +47,7 @@ class DockerProcessor:
                 "PROCESS_ID": operation["processId"],
                 "SYSTEM_ID": operation["systemId"]
             },
-            network='plataformainstaller_default',
+            network='plataforma_network',
             stdout=True,
             remove=True,
             detach=True,

@@ -10,6 +10,10 @@ class Event:
         self.reprocess = kwargs.pop('reprocess', dict())
         self.payload = kwargs.pop('payload', dict())
 
+    def __str__(self):
+        return (f"Name: {self.name}"
+                f"Instance Id: {self.instance_id}"
+                f"Payload: {self.payload}")
 
 Process = namedtuple("Process", [
     "id",

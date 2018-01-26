@@ -2,6 +2,7 @@ import docker
 from sdk import coreapi, process_memory
 from sdk.utils import log
 from runner import settings
+from runner import exceptions
 
 
 class DockerProcessor:
@@ -16,21 +17,33 @@ class DockerProcessor:
         """
         Process receives an event an tries to get a subcribed operation.
         """
-        log(f'Processing event {event}')
+        log('Processing event {event}', event=event)
         operation = coreapi.get_operation_by_event(event)
 
         if not operation:
-            log(f'There is no operation subscribed to this event.\nEvent: {event}\nOperation aborted.')
-            return
+            raise exceptions.InvalidEvent(event)
 
         process_instance = coreapi.create_process_instance(operation)
 
         if not process_instance:
-            log(f'Could not create process instance.\nEvent: {event}\nData: {operation}.\nProcess aborted.')
+            log("""
+                Could not create process instance.
+                Event: {event}
+                Data: {operation}.
+                Process aborted.
+                """,
+                event=event, operation=operation)
             return
 
         if not process_memory.create_memory(process_instance,event):
-            log(f'Could not create process memory.\nEvent: {event}\nProcess Instance: {process_instance}.\nProcess aborted.')
+            log(
+                """
+                Could not create process memory.
+                Event: {event}
+                Process Instance: {process_instance}.
+                Process aborted.
+                """,
+                process_instance=process_instance, event=event)
             return
 
         self._run_container(process_instance, operation)
@@ -38,7 +51,7 @@ class DockerProcessor:
     def _run_container(self, process_instance, operation):
         """
         """
-        log(f'Executing process app. {operation}')
+        log('Executing process app. {operation}', operation=operation)
 
         container = self.client.containers.run(
             operation['container'],
@@ -49,8 +62,6 @@ class DockerProcessor:
             },
             network='plataforma_network',
             stdout=True,
-            remove=False,
+            remove=True,
             detach=True,
         )
-
-        log(f'Container logs. {container.logs()}')

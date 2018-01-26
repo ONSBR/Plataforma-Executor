@@ -13,13 +13,11 @@ def get_operation_by_event(event):
     if not result.has_error and result.data:
         return result.data[0]
 
-    # TODO: log error
-
 
 def create_process_instance(operation):
     """creates a new process execution instance.
     """
-    log(f"Create process instance {operation}")
+    log("Create process instance {operation}", operation=operation)
 
     result = HttpClient.post(
         f"{settings.COREAPI_URL}:{settings.COREAPI_PORT}/core/persist",
@@ -37,5 +35,3 @@ def create_process_instance(operation):
 
     if not result.has_error and result.data:
         return result.data[0]
-
-    # TODO: log error

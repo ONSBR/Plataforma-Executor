@@ -2,9 +2,9 @@ import logging
 import requests
 
 
-def log(msg):
+def log(msg, *args, **kwargs):
     logger = logging.getLogger()
-    logger.error(msg)
+    logger.error(msg.format(*args, **kwargs))
 
 
 class VERBS:
@@ -30,9 +30,17 @@ class ExecutionResult:
 
     @classmethod
     def error(cls, status_code, message, data=None):
-        log(f'HTTP request error\nstatus code: {status_code}\nmessage: {message}')
-        return cls(status_code=status_code, has_error=True,
-                   error_message=message, data=data)
+        log("""
+            HTTP request error
+            status code: {status_code}
+            message: {message}
+            """, status_code=status_code, message=message)
+
+        return cls(
+            status_code=status_code,
+            has_error=True,
+            error_message=message,
+            data=data)
 
 
 class HttpClient:
@@ -40,27 +48,47 @@ class HttpClient:
     """
     @staticmethod
     def _request(uri, verb, **kwargs):
+        def _error(message, status_code=None):
+            return ExecutionResult.error(
+                status_code=status_code,
+                message=message + f"""
+                    host: {uri}
+                    args: {args}
+                """
+            )
+
         try:
-            r = verb(uri, **kwargs)
-            r.raise_for_status()
+            data = None
+            response = verb(uri, **kwargs)
+            response.raise_for_status()
+
+            if response.text:
+                data = response.json()
+
+            return ExecutionResult.ok(
+                status_code=response.status_code,
+                data=data
+            )
         except requests.exceptions.ConnectionError:
-            return ExecutionResult.error(
-                status_code=0,
-                message=f'Could not connect to host: {uri}',)
-        except Exception:
-            return ExecutionResult.error(
-                status_code=r.status_code,
-                message=f"Request failed",
-                data=r.json())
-
-        data = None
-
-        if r.text:
-            data = r.json()
-
-        return ExecutionResult.ok(
-            status_code=r.status_code,
-            data=data)
+            return error(
+                message='Could not connect to host.')
+        except requests.exceptions.Timeout:
+            return error(
+                message="Request time out.")
+        except requests.TooManyRedirects:
+            return error(
+                message="Too many redirects.")
+        except requests.exceptions.HTTPError:
+            return error(
+                message="Request failed.",
+                status_code=response.status_code)
+        except requests.exceptions.RequestException:
+            return error(
+                message="Request failed for unknown reason.")
+        except ValueError:
+            return error(
+                message="Response body is not a valid json.",
+                status_code=response.status_code)
 
     @classmethod
     def get(cls, uri):
@@ -74,5 +102,3 @@ class HttpClient:
             args['json'] = data
 
         return cls._request(uri=uri, verb=VERBS.POST, **args)
-
-

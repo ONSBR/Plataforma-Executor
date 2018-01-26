@@ -38,7 +38,7 @@ class ExecutionResultTestCase(unittest.TestCase):
 def test_logger():
     logger = logging.getLogger()
 
-    with mock.patch.object(logger, 'info') as mock_log:
+    with mock.patch.object(logger, 'error') as mock_log:
         log("message")
         mock_log.assert_called_once_with('message')
 

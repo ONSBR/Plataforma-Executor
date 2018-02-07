@@ -38,11 +38,11 @@ class DebugResource:
 
     def on_post(self, request, response):
         settings.REMOVE_CONTAINER_AFTER_EXECUTION = False
-        response.body = "OK"
+        response.body = json.dumps({"result":"OK"})
 
     def on_delete(self, request, response):
         settings.REMOVE_CONTAINER_AFTER_EXECUTION = True
-        response.body = "OK"
+        response.body = json.dumps({"result":"OK"})
 
     def on_get(self, request, response):
-        response.body = str(settings.REMOVE_CONTAINER_AFTER_EXECUTION)
+        response.body = json.dumps({"result":str(settings.REMOVE_CONTAINER_AFTER_EXECUTION)})

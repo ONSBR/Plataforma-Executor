@@ -52,7 +52,7 @@ class DockerProcessor:
         """
         """
         log('Executing process app. {operation}', operation=operation)
-
+        log(f'Container will be removed after execution? {settings.REMOVE_CONTAINER_AFTER_EXECUTION}')
         container = self.client.containers.run(
             operation['container'],
             environment={

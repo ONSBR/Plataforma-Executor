@@ -45,4 +45,4 @@ class DebugResource:
         response.body = "OK"
 
     def on_get(self, request, response):
-        response.body = settings.REMOVE_CONTAINER_AFTER_EXECUTION
+        response.body = str(settings.REMOVE_CONTAINER_AFTER_EXECUTION)

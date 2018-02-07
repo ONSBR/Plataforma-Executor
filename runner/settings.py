@@ -5,6 +5,8 @@ from runner import processors
 
 DEBUG = False
 
+REMOVE_CONTAINER_AFTER_EXECUTION=True
+
 PROCESSOR = processors.DockerProcessor()
 
 DOCKER_REGISTRY_URL = os.getenv('DOCKER_REGISTRY_URL', 'registry')

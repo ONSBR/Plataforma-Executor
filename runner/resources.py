@@ -31,3 +31,18 @@ class EventResource:
         settings.PROCESSOR.process(event)
         response.status = falcon.HTTP_ACCEPTED
 
+
+class DebugResource:
+    """
+    """
+
+    def on_post(self, request, response):
+        settings.REMOVE_CONTAINER_AFTER_EXECUTION = False
+        response.body = "OK"
+
+    def on_delete(self, request, response):
+        settings.REMOVE_CONTAINER_AFTER_EXECUTION = True
+        response.body = "OK"
+
+    def on_get(self, request, response):
+        response.body = settings.REMOVE_CONTAINER_AFTER_EXECUTION

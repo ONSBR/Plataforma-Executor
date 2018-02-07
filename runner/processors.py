@@ -62,6 +62,6 @@ class DockerProcessor:
             },
             network='plataforma_network',
             stdout=True,
-            remove=True,
+            remove=settings.REMOVE_CONTAINER_AFTER_EXECUTION,
             detach=True,
         )

@@ -4,6 +4,7 @@ from runner import settings
 from runner import exceptions
 import execution
 from sdk.docker import run_container
+from sdk.events import Event
 
 def start(event):
     operation = coreapi.get_operation_by_event(event)

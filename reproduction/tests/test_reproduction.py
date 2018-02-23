@@ -38,5 +38,8 @@ def test_should_start_reproduction():
     commit(id, {"dataset":"here"})
 
     reprod = Event(SystemEvent.REPRODUCTION_EVENT, **{"reproduction":{"instance_id":id,"owner":"user"}})
-    dispatch(reprod)
-    pass
+    assert dispatch(reprod) == True
+
+def test_should_stop_reproduction_when_instance_not_exist():
+    reprod = Event(SystemEvent.REPRODUCTION_EVENT, **{"reproduction":{"instance_id":"123","owner":"user"}})
+    assert dispatch(reprod) == False

@@ -2,7 +2,7 @@ import json
 from sdk.models import Process, Container
 from sdk.utils import HttpClient, log
 from sdk import settings
-
+import datetime
 
 
 def persist(data):
@@ -24,6 +24,25 @@ def get_process_instance_by_instance_id(instance_id):
     result = HttpClient.get(
         f"{settings.COREAPI_URL}:{settings.COREAPI_PORT}/core/processInstance?filter=byId&id={instance_id}")
 
+    if not result.has_error and result.data:
+        return result.data[0]
+
+def create_reproduction_instance(reproduction_instance):
+    """creates a new reproduction execution instance.
+    """
+    log("Create reproduction instance {reproduction_instance}", reproduction_instance=reproduction_instance)
+    result = persist([{
+            "systemId": reproduction_instance['systemId'],
+            "processId": reproduction_instance['processId'],
+            "original_id": reproduction_instance['original_id'],
+            "instance_id": reproduction_instance['instance_id'],
+            "owner": reproduction_instance['owner'],
+            "start_date": str(datetime.datetime.now()),
+            "_metadata": {
+                "type": "reproduction",
+                "changeTrack": "create",
+            }
+        }])
     if not result.has_error and result.data:
         return result.data[0]
 

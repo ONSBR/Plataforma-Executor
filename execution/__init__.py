@@ -12,7 +12,15 @@ def start(event):
         log(f"Event {event.name} has no subscribers")
         return
 
-    process_instance = coreapi.create_process_instance(operation, event.name)
+    if event.instance_id:
+        process_instance = coreapi.get_process_instance_by_instance_id(event.instance_id)
+        if not process_instance:
+            log(f"Instance Id {event.instance_id} not found on Api Core")
+            return
+        run_container(process_instance, operation)
+        return
+    else:
+        process_instance = coreapi.create_process_instance(operation, event.name)
 
     if not process_instance:
         log("""

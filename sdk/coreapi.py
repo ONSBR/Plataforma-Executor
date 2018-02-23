@@ -46,7 +46,6 @@ def create_reproduction_instance(reproduction_instance):
     if not result.has_error and result.data:
         return result.data[0]
 
-
 def create_process_instance(operation, event_name):
     """creates a new process execution instance.
     """

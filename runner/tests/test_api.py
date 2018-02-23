@@ -3,7 +3,11 @@ import json
 import falcon
 from runner import api, resources
 from runner.settings import PROCESSOR as processor
+from sdk.events import Event
+import uuid
 
+
+original_process = processor.process
 
 def test_list_enqueued_events(client):
     # act
@@ -31,5 +35,6 @@ def test_put_new_event(client):
     # assert
     processor.process.assert_called_once()
     assert status == falcon.HTTP_ACCEPTED
+
 
 

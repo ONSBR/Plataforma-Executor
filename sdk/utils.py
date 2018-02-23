@@ -10,8 +10,9 @@ def log(msg, *args, **kwargs):
 class VERBS:
     """HTTP Verbs
     """
-    GET = requests.get
+    GET  = requests.get
     POST = requests.post
+    PUT  = requests.put
 
 
 class ExecutionResult:
@@ -53,7 +54,7 @@ class HttpClient:
                 status_code=status_code,
                 message=message + f"""
                     host: {uri}
-                    args: {args}
+                    args: {kwargs}
                 """
             )
 
@@ -61,32 +62,33 @@ class HttpClient:
             data = None
             response = verb(uri, **kwargs)
             response.raise_for_status()
-
-            if response.text:
+            if response.text and response.headers["Content-Type"] == "application/json":
                 data = response.json()
+            else:
+                data = response.text
 
             return ExecutionResult.ok(
                 status_code=response.status_code,
                 data=data
             )
         except requests.exceptions.ConnectionError:
-            return error(
+            return _error(
                 message='Could not connect to host.')
         except requests.exceptions.Timeout:
-            return error(
+            return _error(
                 message="Request time out.")
         except requests.TooManyRedirects:
-            return error(
+            return _error(
                 message="Too many redirects.")
         except requests.exceptions.HTTPError:
-            return error(
+            return _error(
                 message="Request failed.",
                 status_code=response.status_code)
         except requests.exceptions.RequestException:
-            return error(
+            return _error(
                 message="Request failed for unknown reason.")
         except ValueError:
-            return error(
+            return _error(
                 message="Response body is not a valid json.",
                 status_code=response.status_code)
 
@@ -102,3 +104,12 @@ class HttpClient:
             args['json'] = data
 
         return cls._request(uri=uri, verb=VERBS.POST, **args)
+
+    @classmethod
+    def put(cls, uri, data=None):
+        args = {}
+
+        if data:
+            args['json'] = data
+
+        return cls._request(uri=uri, verb=VERBS.PUT, **args)

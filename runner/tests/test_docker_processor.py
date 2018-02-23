@@ -51,7 +51,7 @@ def test_execute_creates_process_instance(mock_create_process_instance,
     docker_processor.process(mockery["event"])
 
     # assert
-    mock_create_process_instance.assert_called_with(mockery["operation"])
+    mock_create_process_instance.assert_called_with(mockery["operation"],mockery["event"].name)
     mock_create_process_memory.assert_not_called()
 
 
@@ -69,9 +69,8 @@ def test_execute_creates_process_memory(mock_create_process_instance,
 
     # act
     docker_processor.process(mockery["event"])
-
     # assert
-    mock_create_process_instance.assert_called_with(mockery["operation"])
+    mock_create_process_instance.assert_called_with(mockery["operation"],mockery["event"].name)
     mock_create_process_memory.assert_called_with(
         mockery["process_instance"], mockery["event"])
 

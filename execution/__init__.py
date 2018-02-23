@@ -8,8 +8,8 @@ from sdk.docker import run_container
 def start(event):
     operation = coreapi.get_operation_by_event(event)
     if not operation:
-        raise exceptions.InvalidEvent(event)
-
+        log(f"Event {event.name} has not subscribers")
+        return
 
     process_instance = coreapi.create_process_instance(operation, event.name)
 

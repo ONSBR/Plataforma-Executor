@@ -24,19 +24,6 @@ mockery = {
 
 @mock.patch('docker.client.ContainerCollection')
 @mock.patch('sdk.coreapi.get_operation_by_event')
-def test_execute_container_aborts_if_event_has_not_operation(mock_get_operation_by_event,
-                                                             mock_containers):
-
-    docker_processor = DockerProcessor()
-    mock_get_operation_by_event.return_value = None
-
-    # act
-    with pytest.raises(exceptions.InvalidEvent):
-       docker_processor.process(mockery["event"])
-
-
-@mock.patch('docker.client.ContainerCollection')
-@mock.patch('sdk.coreapi.get_operation_by_event')
 @mock.patch('sdk.process_memory.create_memory')
 @mock.patch('sdk.coreapi.create_process_instance')
 def test_execute_creates_process_instance(mock_create_process_instance,

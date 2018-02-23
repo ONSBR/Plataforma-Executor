@@ -13,6 +13,7 @@ def start(event):
         return
 
     if event.instance_id:
+        log(f"Event {event.name} already have a instance id={event.instance_id}")
         process_instance = coreapi.get_process_instance_by_instance_id(event.instance_id)
         if not process_instance:
             log(f"Instance Id {event.instance_id} not found on Api Core")

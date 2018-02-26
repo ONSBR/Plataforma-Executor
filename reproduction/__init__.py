@@ -28,6 +28,7 @@ def dispatch(event):
         return False
 
     original_event["instance_id"] = process_instance["id"]
+    original_event["reproduction"] = {"from":event.reproduction["instance_id"], "to":process_instance["id"], "owner":event.reproduction["owner"]}
     log(f"Dispatching reproduction event {original_event['name']}")
     emit_event(original_event)
 

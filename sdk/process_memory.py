@@ -5,20 +5,20 @@ from sdk.utils import HttpClient
 
 def commit(id, data):
     result = HttpClient.post(
-        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{id}/commit", data)
+        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{id}/commit?app_origin=executor", data)
     return not result.has_error
 
 
 def create_memory(process, event):
     result = HttpClient.post(
-        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{process['id']}/create", event.__dict__)
+        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{process['id']}/create?app_origin=executor", event.__dict__)
 
     return not result.has_error
 
 def first_commit(instance_id):
     """ return first commit from instance id  """
     result = HttpClient.get(
-        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{instance_id}/first")
+        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{instance_id}/first?app_origin=executor")
     if len(result.data) > 0:
         return result.data[0]
     return None
@@ -26,5 +26,5 @@ def first_commit(instance_id):
 def clone(from_instance_id, to_instance_id, n):
     """ clone process memory with instance id from commit 0 to n  """
     result = HttpClient.post(
-        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{from_instance_id}/{to_instance_id}/clone")
+        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{from_instance_id}/{to_instance_id}/clone?app_origin=executor&first={n}")
     return not result.has_error

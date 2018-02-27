@@ -23,7 +23,7 @@ def dispatch(event):
         log(f"Cannot create a new instance from origin {original_instance['id']} and event {original_event['name']}")
         return False
 
-    if not clone(original_instance["id"], process_instance["id"], 2):
+    if not clone(original_instance["id"], process_instance["id"]):
         log(f"Cannot clone origin process memory from instance {original_instance['id']} and event {original_event['name']}")
         return False
 

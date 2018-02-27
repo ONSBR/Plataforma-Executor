@@ -23,8 +23,8 @@ def first_commit(instance_id):
         return result.data[0]
     return None
 
-def clone(from_instance_id, to_instance_id, n):
-    """ clone process memory with instance id from commit 0 to n  """
+def clone(from_instance_id, to_instance_id):
+    """ clone process memory with instance id """
     result = HttpClient.post(
-        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{from_instance_id}/{to_instance_id}/clone?app_origin=executor&first={n}")
+        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{from_instance_id}/{to_instance_id}/clone?app_origin=executor")
     return not result.has_error

@@ -54,7 +54,7 @@ def create_process_instance(operation, event_name):
             "systemId": operation['systemId'],
             "processId": operation['processId'],
             "origin_event_name": event_name,
-            "startExecution": 1516045449619,  # TODO: get datetime as javascript.
+            "startExecution": str(datetime.datetime.now()),
             "status": "created",
             "_metadata": {
                 "type": "processInstance",

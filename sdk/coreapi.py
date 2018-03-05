@@ -34,9 +34,10 @@ def create_reproduction_instance(reproduction_instance):
     result = persist([{
             "systemId": reproduction_instance['systemId'],
             "processId": reproduction_instance['processId'],
-            "original_id": reproduction_instance['original_id'],
-            "instance_id": reproduction_instance['instance_id'],
+            "originalId": reproduction_instance['originalId'],
+            "instanceId": reproduction_instance['instanceId'],
             "owner": reproduction_instance['owner'],
+            "externalId": reproduction_instance['externalId'],
             "start_date": str(datetime.datetime.now()),
             "_metadata": {
                 "type": "reproduction",
@@ -55,6 +56,7 @@ def create_process_instance(operation, event_name):
             "processId": operation['processId'],
             "origin_event_name": event_name,
             "startExecution": str(datetime.datetime.now()),
+            "image":operation["image"],
             "status": "created",
             "_metadata": {
                 "type": "processInstance",

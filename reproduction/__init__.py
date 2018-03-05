@@ -32,9 +32,10 @@ def dispatch(event):
     emit_event(original_event)
 
     reproduction = original_instance.copy()
-    reproduction["original_id"] = original_instance["id"]
-    reproduction["instance_id"] = process_instance["id"]
+    reproduction["originalId"] = original_instance["id"]
+    reproduction["instanceId"] = process_instance["id"]
     reproduction["owner"] = event.reproduction["owner"]
+    reproduction["externalId"] = event.reproduction["externalId"]
 
     rep_instance = create_reproduction_instance(reproduction)
     if rep_instance == None:

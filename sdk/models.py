@@ -20,7 +20,7 @@ Process = namedtuple("Process", [
     "name",
     "solution",
     "instance",
-    "container",
+    "image",
 ])
 
 

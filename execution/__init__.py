@@ -18,7 +18,7 @@ def start(event):
         if not process_instance:
             log(f"Instance Id {event.instance_id} not found on Api Core")
             return
-        run_container(process_instance, operation)
+        run_container(process_instance)
         return
     else:
         process_instance = coreapi.create_process_instance(operation, event.name)
@@ -44,4 +44,4 @@ def start(event):
             process_instance=process_instance, event=event)
         return
 
-    run_container(process_instance, operation)
+    run_container(process_instance)

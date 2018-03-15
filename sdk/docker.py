@@ -8,8 +8,10 @@ client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 def run_container(process_instance):
     """
     """
-    log('Executing process app. {process_instance}', process_instance=process_instance)
+    log("**********************************************************")
+    log('Executing process app. instance id={process_instance_id} image={image}', process_instance_id=process_instance["id"], image=process_instance["image"])
     log(f'Container will be removed after execution? {settings.REMOVE_CONTAINER_AFTER_EXECUTION}')
+    log("**********************************************************")
     container = client.containers.run(
         process_instance['image'],
         environment={

@@ -7,6 +7,8 @@ from sdk.docker import run_container
 from sdk.events import Event
 
 def start(event):
+    log(" ")
+    log(" ")
     log("Execution")
     log("--------------------------------------------------------------------------------------------------------------------")
     operation = coreapi.get_operation_by_event(event)

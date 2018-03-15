@@ -7,9 +7,9 @@ from sdk.utils import log
 
 def dispatch(event):
     original_instance = get_process_instance_by_instance_id(
-        event.reproduction["instance_id"])
+        event.reproduction["instanceId"])
     if original_instance == None:
-        log(f"Instance {event.reproduction['instance_id']} not found in process memory")
+        log(f"Instance {event.reproduction['instanceId']} not found in process memory")
         return False
 
     original_event = first_commit(original_instance["id"])
@@ -27,14 +27,15 @@ def dispatch(event):
         log(f"Cannot clone origin process memory from instance {original_instance['id']} and event {original_event['name']}")
         return False
 
-    original_event["instance_id"] = process_instance["id"]
+    original_event["instanceId"] = process_instance["id"]
     log(f"Dispatching reproduction event {original_event['name']}")
     emit_event(original_event)
 
     reproduction = original_instance.copy()
-    reproduction["original_id"] = original_instance["id"]
-    reproduction["instance_id"] = process_instance["id"]
+    reproduction["originalId"] = original_instance["id"]
+    reproduction["instanceId"] = process_instance["id"]
     reproduction["owner"] = event.reproduction["owner"]
+    reproduction["externalId"] = event.reproduction["externalId"]
 
     rep_instance = create_reproduction_instance(reproduction)
     if rep_instance == None:

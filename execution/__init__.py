@@ -20,15 +20,16 @@ def start(event):
     if event.instance_id:
         log(f"Event {event.name} already have a instance id={event.instance_id}")
         process_instance = coreapi.get_process_instance_by_instance_id(event.instance_id)
+        log(f"process instance id = {process_instance['id']} image={process_instance['image']}")
         if not process_instance:
             log(f"Instance Id {event.instance_id} not found on Api Core")
             return
 
         if not Event().is_reproduction(event):
-            #different operation with same instance id
+            log(f"Override process instance image from {process_instance['image']} to {operation['image']}")
             process_instance["image"] = operation["image"]
         run_container(process_instance)
-        log("--------------------------------------------------------------------------------------------------------------------")
+        log("--------------------------------------------------------------------------------------------------------------------\n\n")
         return
     else:
         process_instance = coreapi.create_process_instance(operation, event.name)
@@ -41,7 +42,7 @@ def start(event):
             Process aborted.
             """,
             event=event, operation=operation)
-        log("--------------------------------------------------------------------------------------------------------------------")
+        log("--------------------------------------------------------------------------------------------------------------------\n\n")
         return
 
     if not process_memory.create_memory(process_instance,event):
@@ -53,8 +54,8 @@ def start(event):
             Process aborted.
             """,
             process_instance=process_instance, event=event)
-        log("--------------------------------------------------------------------------------------------------------------------")
+        log("--------------------------------------------------------------------------------------------------------------------\n\n")
         return
 
     run_container(process_instance)
-    log("--------------------------------------------------------------------------------------------------------------------")
+    log("--------------------------------------------------------------------------------------------------------------------\n\n")

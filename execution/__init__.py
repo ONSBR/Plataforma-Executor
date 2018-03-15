@@ -25,7 +25,7 @@ def start(event):
             log(f"Instance Id {event.instance_id} not found on Api Core")
             return
 
-        if  event["scope"] == "execution":
+        if  event.scope == "execution":
             log(f"Override process instance image from {process_instance['image']} to {operation['image']}")
             process_instance["image"] = operation["image"]
         run_container(process_instance)

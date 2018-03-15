@@ -7,9 +7,12 @@ from sdk.docker import run_container
 from sdk.events import Event
 
 def start(event):
+    log("Execution")
+    log("--------------------------------------------------------------------------------------------------------------------")
     operation = coreapi.get_operation_by_event(event)
     if not operation:
         log(f"Event {event.name} has no subscribers")
+        log("--------------------------------------------------------------------------------------------------------------------")
         return
 
     if event.instance_id:
@@ -19,6 +22,7 @@ def start(event):
             log(f"Instance Id {event.instance_id} not found on Api Core")
             return
         run_container(process_instance)
+        log("--------------------------------------------------------------------------------------------------------------------")
         return
     else:
         process_instance = coreapi.create_process_instance(operation, event.name)
@@ -31,6 +35,7 @@ def start(event):
             Process aborted.
             """,
             event=event, operation=operation)
+        log("--------------------------------------------------------------------------------------------------------------------")
         return
 
     if not process_memory.create_memory(process_instance,event):
@@ -42,6 +47,8 @@ def start(event):
             Process aborted.
             """,
             process_instance=process_instance, event=event)
+        log("--------------------------------------------------------------------------------------------------------------------")
         return
 
     run_container(process_instance)
+    log("--------------------------------------------------------------------------------------------------------------------")

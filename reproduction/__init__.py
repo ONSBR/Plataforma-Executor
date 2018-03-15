@@ -29,6 +29,7 @@ def dispatch(event):
 
     original_event["instanceId"] = process_instance["id"]
     log(f"Dispatching reproduction event {original_event['name']}")
+    original_event["scope"] = "reproduction"
     emit_event(original_event)
 
     reproduction = original_instance.copy()

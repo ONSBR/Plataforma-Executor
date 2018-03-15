@@ -21,7 +21,10 @@ def start(event):
         if not process_instance:
             log(f"Instance Id {event.instance_id} not found on Api Core")
             return
-        run_container(operation)
+        if Event().is_reproduction(event):
+            run_container(process_instance)
+        else:
+            run_container(operation)
         log("--------------------------------------------------------------------------------------------------------------------")
         return
     else:

@@ -19,8 +19,11 @@ class DockerProcessor:
         """
         Process receives an event an tries to get a subcribed operation.
         """
-        log('Processing event {event}', event=event)
+        log("============================================================================================")
+        log('Processing event {event}', event=event.name)
+        log("\n")
         if events.Event().is_reproduction(event):
             reproduction.dispatch(event)
         else:
             execution.start(event)
+        log("============================================================================================\n")

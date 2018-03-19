@@ -6,6 +6,9 @@ from sdk.utils import log
 
 
 def dispatch(event):
+    if not "instanceId" in event.reproduction:
+        log(f"Reproduction event should have field instanceId on section reproduction")
+        return False
     original_instance = get_process_instance_by_instance_id(
         event.reproduction["instanceId"])
     if original_instance == None:

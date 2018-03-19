@@ -5,19 +5,19 @@ from runner import settings
 client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 
 
-def run_container(process_instance):
+def run_container(operation_instance):
     """
     """
     log("**********************************************************")
-    log('Executing process app. instance id={process_instance_id} image={image}', process_instance_id=process_instance["id"], image=process_instance["image"])
+    log('Executing process app. instance id={process_instance_id} image={image}', process_instance_id=operation_instance["processInstanceId"], image=operation_instance["image"])
     log(f'Container will be removed after execution? {settings.REMOVE_CONTAINER_AFTER_EXECUTION}')
     log("**********************************************************")
     container = client.containers.run(
-        process_instance['image'],
+        operation_instance['image'],
         environment={
-            "INSTANCE_ID": process_instance["id"],
-            "PROCESS_ID": process_instance["processId"],
-            "SYSTEM_ID": process_instance["systemId"]
+            "INSTANCE_ID": operation_instance["processInstanceId"],
+            "PROCESS_ID": operation_instance["processId"],
+            "SYSTEM_ID": operation_instance["systemId"]
         },
         network='plataforma_network',
         stdout=True,

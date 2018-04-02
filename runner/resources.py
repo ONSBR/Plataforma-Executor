@@ -46,3 +46,16 @@ class DebugResource:
 
     def on_get(self, request, response):
         response.body = json.dumps({"result":str(settings.REMOVE_CONTAINER_AFTER_EXECUTION)})
+
+
+class ProcessInstanceResource:
+    """
+    Creates a process instance on APICore and ProcessMemory
+    """
+
+    def on_post(self, request, response):
+        log('Received event: {event}', event=request.media)
+        event = Event(**request.media)
+
+        response.body = json.dumps(event)
+        response.status = falcon.HTTP_CREATED

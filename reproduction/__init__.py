@@ -39,7 +39,10 @@ def dispatch(event):
     reproduction["originalId"] = original_instance["id"]
     reproduction["instanceId"] = process_instance["id"]
     reproduction["owner"] = event.reproduction["owner"]
-    reproduction["externalId"] = event.reproduction["externalId"]
+    if "externalId" in event.reproduction:
+        reproduction["externalId"] = event.reproduction["externalId"]
+    else:
+        reproduction["externalId"] = ""
 
     rep_instance = create_reproduction_instance(reproduction)
     if rep_instance == None:

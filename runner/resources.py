@@ -3,6 +3,7 @@ import falcon
 from runner import settings
 from sdk.models import Event
 from sdk.utils import log
+import process_instance
 
 class EventResource:
     """
@@ -54,8 +55,12 @@ class ProcessInstanceResource:
     """
 
     def on_post(self, request, response):
-        log('Received event: {event}', event=request.media)
+        log('Create process instance to event: {event}', event=request.media)
         event = Event(**request.media)
-
-        response.body = json.dumps(event)
-        response.status = falcon.HTTP_CREATED
+        result = process_instance.create(event)
+        if "process_instance" in result:
+            response.body = json.dumps(result["process_instance"])
+            response.status = falcon.HTTP_CREATED
+        else:
+            response.body = json.dumps({"error":"Cannot create process instance"})
+            response.status = falcon.HTTP_INTERNAL_SERVER_ERROR

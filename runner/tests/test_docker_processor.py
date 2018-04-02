@@ -7,7 +7,7 @@ from sdk import coreapi, models
 from runner import settings
 from runner.processors import DockerProcessor
 from runner import exceptions
-
+from runner import settings
 
 mockery = {
     "event": models.Event(name='event'),
@@ -108,6 +108,6 @@ def test_execute_new_instance(mock_create_operation_instance,
             "SYSTEM_ID": "system_id",
         },
         network="plataforma_network",
-        remove=True,
+        remove=settings.REMOVE_CONTAINER_AFTER_EXECUTION,
         stdout=True,
     )

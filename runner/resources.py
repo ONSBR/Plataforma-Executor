@@ -58,7 +58,7 @@ class ProcessInstanceResource:
         log('Create process instance to event: {event}', event=request.media)
         event = Event(**request.media)
         result = process_instance.create(event)
-        if "process_instance" in result:
+        if result and "process_instance" in result:
             response.body = json.dumps(result["process_instance"])
             response.status = falcon.HTTP_CREATED
         else:

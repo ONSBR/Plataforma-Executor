@@ -22,6 +22,10 @@ class TestClient(testing.TestClient):
         return self._split_response(
             self.simulate_put(uri, body=json.dumps(data)))
 
+    def post(self, uri, data):
+        return self._split_response(
+            self.simulate_post(uri, body=json.dumps(data)))
+
 
 @pytest.fixture
 def client():

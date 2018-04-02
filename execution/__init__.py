@@ -9,7 +9,7 @@ from sdk.events import Event
 
 def start(event):
     result = process_instance.create(event)
-    if "operation_instance" in result:
+    if result and "operation_instance" in result:
         log("Running container")
         run_container(result["operation_instance"])
         log("--------------------------------------------------------------------------------------------------------------------\n\n")

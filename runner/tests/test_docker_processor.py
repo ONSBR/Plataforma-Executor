@@ -54,6 +54,27 @@ def test_execute_creates_process_instance(mock_create_process_instance,
     mock_create_process_instance.assert_called()
     mock_create_process_memory.assert_called()
 
+@mock.patch('docker.client.ContainerCollection')
+@mock.patch('sdk.coreapi.get_operation_by_event')
+@mock.patch('sdk.process_memory.create_memory')
+@mock.patch('sdk.coreapi.create_process_instance')
+@mock.patch('sdk.coreapi.create_operation_instance')
+def test_execute_creates_process_instance_invalid_event(mock_create_operation_instance,
+                                          mock_create_process_instance,
+                                          mock_create_process_memory,
+                                          mock_get_operation_by_event,
+                                          mock_containers):
+    docker_processor = DockerProcessor()
+    mock_get_operation_by_event.return_value = None
+    mock_create_process_instance.return_value = None
+    mock_create_operation_instance.return_value = None
+    # act
+    docker_processor.process(models.Event(name=''))
+
+    # assert
+    mock_create_process_instance.assert_not_called()
+    mock_create_process_memory.assert_not_called()
+
 
 @mock.patch('docker.client.ContainerCollection')
 @mock.patch('sdk.coreapi.get_operation_by_event')

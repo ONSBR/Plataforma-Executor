@@ -21,7 +21,7 @@ def run_container(operation_instance):
         },
         network='plataforma_network',
         stdout=True,
-        ports={"9222":"9229"},
+        ports={"9229":"9222"},
         remove=settings.REMOVE_CONTAINER_AFTER_EXECUTION,
         detach=True,
     )

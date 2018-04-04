@@ -129,7 +129,7 @@ def test_execute_new_instance(mock_create_operation_instance,
             "SYSTEM_ID": "system_id",
         },
         network="plataforma_network",
-        ports={"9222":"9229"},
+        ports={"9229":"9222"},
         remove=settings.REMOVE_CONTAINER_AFTER_EXECUTION,
         stdout=True,
     )

@@ -1,7 +1,7 @@
 import docker
 from sdk.utils import log
 from runner import settings
-
+import random
 client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 
 
@@ -21,7 +21,7 @@ def run_container(operation_instance):
         },
         network='plataforma_network',
         stdout=True,
-        ports={"9229":"9222"},
+        ports={"9229":str(random.randrange(7000, 7999, 2))},
         remove=settings.REMOVE_CONTAINER_AFTER_EXECUTION,
         detach=True,
     )

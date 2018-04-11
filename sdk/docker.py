@@ -12,6 +12,11 @@ def run_container(operation_instance):
     log('Executing process app. instance id={process_instance_id} image={image}', process_instance_id=operation_instance["processInstanceId"], image=operation_instance["image"])
     log(f'Container will be removed after execution? {settings.REMOVE_CONTAINER_AFTER_EXECUTION}')
     log("**********************************************************")
+
+    ports = None
+    if settings.ENABLE_CONTAINER_DEBUG:
+        ports = {"9229":str(random.randrange(7000, 7999, 2))}
+
     container = client.containers.run(
         operation_instance['image'],
         environment={
@@ -21,7 +26,6 @@ def run_container(operation_instance):
         },
         network='plataforma_network',
         stdout=True,
-        ports={"9229":str(random.randrange(7000, 7999, 2))},
-        remove=settings.REMOVE_CONTAINER_AFTER_EXECUTION,
-        detach=True,
+        ports=ports,
+        remove=settings.REMOVE_CONTAINER_AFTER_EXECUTION
     )

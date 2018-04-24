@@ -5,7 +5,8 @@ from runner import processors
 
 DEBUG = False
 
-REMOVE_CONTAINER_AFTER_EXECUTION=True
+REMOVE_CONTAINER_AFTER_EXECUTION=False
+ENABLE_CONTAINER_DEBUG=False
 
 PROCESSOR = processors.DockerProcessor()
 

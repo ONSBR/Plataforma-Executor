@@ -11,5 +11,5 @@ def start(event):
     result = process_instance.create(event)
     if result and "operation_instance" in result:
         log("Running container")
-        run_container(result["operation_instance"])
-        log("--------------------------------------------------------------------------------------------------------------------\n\n")
+        run_container(result["operation_instance"],event.name)
+        log(''"--------------------------------------------------------------------------------------------------------------------\n\n")

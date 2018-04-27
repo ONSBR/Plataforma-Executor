@@ -5,7 +5,7 @@ import random
 client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 
 
-def run_container(operation_instance):
+def run_container(operation_instance, event_name):
     """
     """
     log("**********************************************************")
@@ -22,7 +22,8 @@ def run_container(operation_instance):
         environment={
             "INSTANCE_ID": operation_instance["processInstanceId"],
             "PROCESS_ID": operation_instance["processId"],
-            "SYSTEM_ID": operation_instance["systemId"]
+            "SYSTEM_ID": operation_instance["systemId"],
+            "EVENT": event_name
         },
         network='plataforma_network',
         stdout=True,

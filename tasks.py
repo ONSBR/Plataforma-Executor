@@ -2,6 +2,8 @@ from celery import Celery
 from sdk.settings import RABBITMQ_URL, RABBITMQ_USERNAME, RABBITMQ_PASSWORD, RABBITMQ_VHOST
 from runner import settings
 from sdk.models import Event
+import os
+
 app = Celery('tasks', broker=f'pyamqp://{RABBITMQ_USERNAME}:{RABBITMQ_PASSWORD}@{RABBITMQ_URL}/{RABBITMQ_VHOST}')
 
 DEBUG =  os.environ.get("DEBUG_MODE", False)

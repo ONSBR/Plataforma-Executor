@@ -6,7 +6,7 @@ import os
 
 app = Celery('tasks', broker=f'pyamqp://{RABBITMQ_USERNAME}:{RABBITMQ_PASSWORD}@{RABBITMQ_URL}/{RABBITMQ_VHOST}')
 
-DEBUG =  os.environ.get("DEBUG_MODE", False)
+
 
 @app.task(serializer='json', bind=True)
 def process(tsk, dict_event):
@@ -17,6 +17,7 @@ def process(tsk, dict_event):
         print(f"REMOVE_CONTAINER_AFTER_EXECUTION {settings.REMOVE_CONTAINER_AFTER_EXECUTION}")
         print("-------------------------------------------------")
         print("******************************************")
+        DEBUG = os.environ.get("DEBUG_MODE", False)
         event = Event(**dict_event)
         settings.REMOVE_CONTAINER_AFTER_EXECUTION = not DEBUG
         if event.name.startswith("system."):

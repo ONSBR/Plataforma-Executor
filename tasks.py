@@ -4,6 +4,7 @@ from runner import settings
 from sdk.models import Event
 app = Celery('tasks', broker=f'pyamqp://{RABBITMQ_USERNAME}:{RABBITMQ_PASSWORD}@{RABBITMQ_URL}/{RABBITMQ_VHOST}')
 
+DEBUG =  os.environ.get("DEBUG_MODE", False)
 
 @app.task(serializer='json', bind=True)
 def process(tsk, dict_event):
@@ -15,16 +16,16 @@ def process(tsk, dict_event):
         print("-------------------------------------------------")
         print("******************************************")
         event = Event(**dict_event)
-
+        settings.REMOVE_CONTAINER_AFTER_EXECUTION = not DEBUG
         if event.name.startswith("system."):
             print("Processing System Event")
             if event.name == "system.executor.enable.debug":
                 print("ENABLE DEBUG")
-                settings.REMOVE_CONTAINER_AFTER_EXECUTION = False
+                DEBUG = True
                 return 0
             elif event.name == "system.executor.disable.debug":
+                DEBUG = False
                 print("DISABLE DEBUG")
-                settings.REMOVE_CONTAINER_AFTER_EXECUTION = True
                 return 0
         else:
             settings.PROCESSOR.process(event)

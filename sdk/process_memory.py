@@ -11,7 +11,7 @@ def commit(id, data):
 
 def create_memory(process, event):
     result = HttpClient.post(
-        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{process['id']}/create?app_origin=executor", event.__dict__)
+        f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{process['id']}/create?app_origin=executor", { "event": event.__dict__})
 
     return not result.has_error
 

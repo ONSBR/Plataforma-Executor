@@ -8,7 +8,6 @@ from reproduction import dispatch
 import uuid
 
 
-
 def create_process_instance():
     id = str(uuid.uuid4())
     p = [
@@ -17,6 +16,7 @@ def create_process_instance():
         "systemId": str(uuid.uuid4()),
         "startExecution": "2018-01-15T19:44:09.619Z",
         "origin_event_name":"action.request",
+        "version":"1",
         "status": "created",
         "id": id,
         "_metadata": {
@@ -36,7 +36,6 @@ def test_should_start_reproduction():
     id = create_process_instance()
     create_event(id)
     commit(id, {"dataset":"here"})
-
     reprod = Event(SystemEvent.REPRODUCTION_EVENT, **{"reproduction":{"instanceId":id,"owner":"user"}})
     assert dispatch(reprod) == True
 

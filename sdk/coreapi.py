@@ -68,6 +68,7 @@ def create_process_instance(operation, event_name):
     result = persist([{
             "systemId": operation['systemId'],
             "processId": operation['processId'],
+            "version": operation.get('version'),
             "origin_event_name": event_name,
             "startExecution": str(datetime.datetime.now()),
             "status": "created",

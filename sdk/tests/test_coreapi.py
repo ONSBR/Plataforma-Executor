@@ -28,7 +28,8 @@ def test_get_operation_by_event_fail():
 def test_create_process_instance():
     operation = {
         'systemId': 'asdf',
-        'processId': 'fdsa'
+        'processId': 'fdsa',
+        'version': '1'
     }
 
     with mock.patch('sdk.coreapi.HttpClient') as mock_client:
@@ -41,7 +42,8 @@ def test_create_process_instance():
 def test_create_process_instance_fail():
     operation = {
         'systemId': 'asdf',
-        'processId': 'fdsa'
+        'processId': 'fdsa',
+        'version': '1'
     }
 
     with mock.patch('sdk.coreapi.HttpClient') as mock_client:

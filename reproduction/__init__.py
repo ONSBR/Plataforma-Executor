@@ -19,7 +19,7 @@ def dispatch(event):
     if original_event == None:
         log(f"Origin event not found for instance {original_instance['id']}")
         return False
-
+    original_event = original_event["event"]
     process_instance = create_process_instance(original_instance, original_event["name"])
 
     if process_instance == None:

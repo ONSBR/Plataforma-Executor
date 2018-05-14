@@ -62,7 +62,8 @@ def create_reproduction_instance(reproduction_instance):
         return result.data[0]
 
 def create_process_instance(operation, event_name):
-    """creates a new process execution instance.
+    """
+    creates a new process execution instance.
     """
     log("Create process instance {operation}", operation=operation)
     result = persist([{

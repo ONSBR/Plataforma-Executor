@@ -7,6 +7,7 @@ class Event:
         self.instance_id = kwargs.pop('instanceId', None)
         self.reference_date = kwargs.pop('referenceDate', None)
         self.scope = kwargs.pop('scope', 'execution')
+        self.branch = kwargs.pop('branch', 'master')
         self.reproduction = kwargs.pop('reproduction', dict())
         self.reprocess = kwargs.pop('reprocess', dict())
         self.payload = kwargs.pop('payload', dict())

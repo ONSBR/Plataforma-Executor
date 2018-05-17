@@ -12,6 +12,7 @@ def start(event):
     original_instance = coreapi.get_process_instance_by_instance_id(original_instance_id)
     log(f"Creating new process instance to respond event {event.name}")
     process_instance = coreapi.create_process_instance(original_instance, event.name)
+    operation = coreapi.get_operation_by_event_and_version(event, event.reprocessing["version"])
     if not process_memory.create_memory(process_instance, event):
         log(
             """
@@ -33,5 +34,5 @@ def start(event):
         return
 
     log(f"event scope is {event.scope}")
-    operation_instance = coreapi.create_operation_instance(process_instance, event.name, process_instance["id"])
+    operation_instance = coreapi.create_operation_instance(operation, event.name, process_instance["id"])
     run_container(operation_instance,event.name)

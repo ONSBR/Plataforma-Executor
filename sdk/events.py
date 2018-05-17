@@ -15,3 +15,9 @@ class Event:
         if evt.reproduction != dict() and ("instance_id" and "owner" in evt.reproduction):
             return True
         return False
+
+    def is_reprocessing(self, evt):
+        """ check if a received event is a reprocessing event by looking on event scope """
+        if evt.scope != "reprocessing":
+            return False
+        return True

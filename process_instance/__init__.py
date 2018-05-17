@@ -50,7 +50,7 @@ def create(event):
         return
 
     log(f"event scope is {event.scope}")
-    if event.scope == "execution":
+    if event.scope in {"execution", "reprocessing"}:
         operation_instance = coreapi.create_operation_instance(operation, event.name, process_instance["id"])
     elif event.scope == "reproduction":
         # recupera a operation que foi executada para uma determinada instancia do processo

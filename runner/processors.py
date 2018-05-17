@@ -5,6 +5,7 @@ from runner import settings
 from runner import exceptions
 import reproduction
 import execution
+import reprocessing
 
 class DockerProcessor:
     """Executes a new instance of a process app.
@@ -24,6 +25,8 @@ class DockerProcessor:
         log("\n")
         if events.Event().is_reproduction(event):
             reproduction.dispatch(event)
+        elif events.Event().is_reprocessing(event):
+            reprocessing.start(event)
         else:
             execution.start(event)
         log("============================================================================================\n")

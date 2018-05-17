@@ -5,7 +5,7 @@ from runner import exceptions
 import execution
 from sdk.docker import run_container
 from sdk.events import Event
-
+from json import dumps
 
 def create(event):
     """
@@ -24,9 +24,9 @@ def create(event):
             event.instance_id)
     else:
         log(f"Creating new process instance to respond event {event.name}")
-        log(f"{operation}")
+        log(dumps(operation))
         process_instance = coreapi.create_process_instance(operation, event.name)
-        log(f"{process_instance}")
+        log(dumps(process_instance))
         if not process_memory.create_memory(process_instance, event):
             log(
                 """

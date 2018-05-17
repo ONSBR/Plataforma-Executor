@@ -3,7 +3,6 @@ from sdk.models import Process, Container
 from sdk.utils import HttpClient, log
 from sdk import settings
 import datetime
-import log as lg
 
 
 def persist(data):
@@ -90,7 +89,7 @@ def create_process_instance(operation, event_name):
     if not result.has_error and result.data:
         return result.data[0]
     else:
-        lg.info(result.data)
+       log("{error}",error=result.data)
 
 def create_operation_instance(operation, event_name, process_instance_id):
     """creates a new operation instance.

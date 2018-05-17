@@ -24,7 +24,7 @@ def get_operation_by_event_and_version(event, version):
     """ Retrieves the operation subscribed to an event.
     """
     result = HttpClient.get(
-        f"{settings.COREAPI_URL}:{settings.COREAPI_PORT}/core/operation?filter=byEvent&event={event.name}&version={version}")
+        f"{settings.COREAPI_URL}:{settings.COREAPI_PORT}/core/operation?filter=byEventAndVersion&event={event.name}&version={version}")
 
     if not result.has_error and result.data:
         return result.data[0]
@@ -88,8 +88,6 @@ def create_process_instance(operation, event_name):
         }])
     if not result.has_error and result.data:
         return result.data[0]
-    else:
-       log("{error}",error=result.data)
 
 def create_operation_instance(operation, event_name, process_instance_id):
     """creates a new operation instance.

@@ -70,7 +70,7 @@ def create_reproduction_instance(reproduction_instance):
     if not result.has_error and result.data:
         return result.data[0]
 
-def create_process_instance(operation, event_name):
+def create_process_instance(operation, event):
     """
     creates a new process execution instance.
     """
@@ -78,7 +78,8 @@ def create_process_instance(operation, event_name):
             "systemId": operation['systemId'],
             "processId": operation['processId'],
             "version": operation.get('version'),
-            "origin_event_name": event_name,
+            "origin_event_name": event.name,
+            "baseline": event.branch,
             "startExecution": str(datetime.datetime.utcnow()),
             "status": "created",
             "_metadata": {

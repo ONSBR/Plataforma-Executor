@@ -34,7 +34,7 @@ def test_create_process_instance():
 
     with mock.patch('sdk.coreapi.HttpClient') as mock_client:
         mock_client.post.return_value = ExecutionResult.ok(data=[1])
-        instance = create_process_instance(operation,"")
+        instance = create_process_instance(operation,Event(""))
 
         assert instance == 1
 
@@ -48,6 +48,6 @@ def test_create_process_instance_fail():
 
     with mock.patch('sdk.coreapi.HttpClient') as mock_client:
         mock_client.post.return_value = ExecutionResult.error(status_code=404, message='error')
-        instance = create_process_instance(operation,"")
+        instance = create_process_instance(operation,Event(""))
 
         assert instance is None

@@ -13,6 +13,9 @@ def start(event):
     log(f"Creating new process instance to respond event {event.name}")
     process_instance = coreapi.create_process_instance(original_instance, event.name)
     operation = coreapi.get_operation_by_event_and_version(event, event.reprocessing["version"])
+    if not operation:
+        log("Operation not found")
+        return
     if not process_memory.create_memory(process_instance, event):
         log(
             """

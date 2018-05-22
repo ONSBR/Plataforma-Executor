@@ -6,6 +6,7 @@ class Event:
         self.name = name
         self.instance_id = kwargs.pop('instanceId', None)
         self.reference_date = kwargs.pop('referenceDate', None)
+        self.tag = kwargs.pop('tag', None)
         self.scope = kwargs.pop('scope', 'execution')
         self.branch = kwargs.pop('branch', 'master')
         self.reproduction = kwargs.pop('reproduction', dict())

@@ -9,6 +9,7 @@ class Event:
         self.tag = kwargs.pop('tag', None)
         self.scope = kwargs.pop('scope', 'execution')
         self.branch = kwargs.pop('branch', 'master')
+        self.commands = kwargs.pop('commands',[])
         self.reproduction = kwargs.pop('reproduction', dict())
         self.reprocessing = kwargs.pop('reprocessing', dict())
         self.payload = kwargs.pop('payload', dict())

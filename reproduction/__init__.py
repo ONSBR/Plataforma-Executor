@@ -16,6 +16,7 @@ def dispatch(event):
         return False
 
     original_event = first_commit(original_instance["id"])
+    original_event["scope"] = "reproduction"
     if original_event == None:
         log(f"Origin event not found for instance {original_instance['id']}")
         return False
@@ -33,7 +34,7 @@ def dispatch(event):
 
     original_event["instanceId"] = process_instance["id"]
     log(f"Dispatching reproduction event {name}")
-    original_event["scope"] = "reproduction"
+
     original_event["name"] = name
     emit_event(original_event)
 

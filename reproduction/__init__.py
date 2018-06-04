@@ -16,12 +16,13 @@ def dispatch(event):
         return False
 
     original_event = first_commit(original_instance["id"])
-    original_event["scope"] = "reproduction"
+
     if original_event == None:
         log(f"Origin event not found for instance {original_instance['id']}")
         return False
     original_event = original_event["event"]
     name = original_event.pop("name")
+    original_event["scope"] = "reproduction"
     process_instance = create_process_instance(original_instance, Event(name, **original_event))
 
     if process_instance == None:

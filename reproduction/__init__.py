@@ -20,19 +20,21 @@ def dispatch(event):
         log(f"Origin event not found for instance {original_instance['id']}")
         return False
     original_event = original_event["event"]
-    process_instance = create_process_instance(original_instance, Event(original_event["name"], **original_event))
+    name = original_event.pop("name")
+    process_instance = create_process_instance(original_instance, Event(name, **original_event))
 
     if process_instance == None:
-        log(f"Cannot create a new instance from origin {original_instance['id']} and event {original_event['name']}")
+        log(f"Cannot create a new instance from origin {original_instance['id']} and event {name}")
         return False
 
     if not clone(original_instance["id"], process_instance["id"]):
-        log(f"Cannot clone origin process memory from instance {original_instance['id']} and event {original_event['name']}")
+        log(f"Cannot clone origin process memory from instance {original_instance['id']} and event {name}")
         return False
 
     original_event["instanceId"] = process_instance["id"]
-    log(f"Dispatching reproduction event {original_event['name']}")
+    log(f"Dispatching reproduction event {name}")
     original_event["scope"] = "reproduction"
+    original_event["name"] = name
     emit_event(original_event)
 
     reproduction = original_instance.copy()

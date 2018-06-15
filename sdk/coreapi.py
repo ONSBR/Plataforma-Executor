@@ -96,6 +96,7 @@ def create_operation_instance(operation, event_name, process_instance_id):
     result = persist([{
             "systemId": operation['systemId'],
             "processId": operation['processId'],
+            "operationId": operation['id'],
             "eventName": event_name,
             "version": operation.get('version'),
             "processInstanceId": process_instance_id,

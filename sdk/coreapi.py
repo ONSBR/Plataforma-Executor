@@ -77,7 +77,6 @@ def create_process_instance(operation, event):
     result = persist([{
             "systemId": operation['systemId'],
             "processId": operation['processId'],
-            "version": operation.get('version'),
             "origin_event_name": event.name,
             "baseline": event.branch,
             "scope": event.scope,
@@ -98,6 +97,7 @@ def create_operation_instance(operation, event_name, process_instance_id):
             "systemId": operation['systemId'],
             "processId": operation['processId'],
             "eventName": event_name,
+            "version": operation.get('version'),
             "processInstanceId": process_instance_id,
             "image": operation["image"],
             "status": "created",

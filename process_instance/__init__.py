@@ -25,6 +25,7 @@ def create(event):
     else:
         log(f"Creating new process instance to respond event {event.name}")
         process_instance = coreapi.create_process_instance(operation, event)
+        event.instance_id = process_instance.id
         if not process_memory.create_memory(process_instance, event):
             log(
                 """

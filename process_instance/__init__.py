@@ -18,14 +18,14 @@ def create(event):
         log("--------------------------------------------------------------------------------------------------------------------")
         return
 
-    if event.instance_id:
-        log(f"Event {event.name} already have a instance id={event.instance_id}")
+    if event.instanceId:
+        log(f"Event {event.name} already have a instance id={event.instanceId}")
         process_instance = coreapi.get_process_instance_by_instance_id(
-            event.instance_id)
+            event.instanceId)
     else:
         log(f"Creating new process instance to respond event {event.name}")
         process_instance = coreapi.create_process_instance(operation, event)
-        event.instance_id = process_instance["id"]
+        event.instanceId = process_instance["id"]
         event.version = operation["version"]
         event.image = operation["image"]
         if not process_memory.create_memory(process_instance, event):

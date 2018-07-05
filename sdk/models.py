@@ -4,7 +4,7 @@ from collections import namedtuple
 class Event:
     def __init__(self, name, **kwargs):
         self.name = name
-        self.instance_id = kwargs.pop('instanceId', None)
+        self.instanceId = kwargs.pop('instanceId', None)
         self.reference_date = kwargs.pop('referenceDate', None)
         self.tag = kwargs.pop('tag', None)
         self.version  = kwargs.pop('tag', None)
@@ -18,7 +18,7 @@ class Event:
 
     def __str__(self):
         return (f"Name: {self.name}"
-                f"Instance Id: {self.instance_id}"
+                f"Instance Id: {self.instanceId}"
                 f"Payload: {self.payload}")
 
 Process = namedtuple("Process", [

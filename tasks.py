@@ -13,7 +13,6 @@ def process(tsk, dict_event):
     try:
         DEBUG = os.environ.get("DEBUG_MODE", False)
         event = Event(**dict_event)
-        settings.REMOVE_CONTAINER_AFTER_EXECUTION = not DEBUG
         if event.name in {"system.executor.enable.debug", "system.executor.disable.debug"}:
             if event.name == "system.executor.enable.debug":
                 DEBUG = True

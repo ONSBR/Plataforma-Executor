@@ -7,7 +7,7 @@ class Event:
         self.instanceId = kwargs.pop('instanceId', None)
         self.reference_date = kwargs.pop('referenceDate', None)
         self.tag = kwargs.pop('tag', None)
-        self.version  = kwargs.pop('tag', None)
+        self.version  = kwargs.pop('version', None)
         self.image = kwargs.pop('image', None)
         self.scope = kwargs.pop('scope', 'execution')
         self.branch = kwargs.pop('branch', 'master')

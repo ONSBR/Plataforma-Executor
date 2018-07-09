@@ -12,7 +12,7 @@ def start(event):
     original_instance = coreapi.get_process_instance_by_instance_id(original_instance_id)
     log(f"Creating new process instance to respond event {event.name}")
     process_instance = coreapi.create_process_instance(original_instance, event)
-    operation = coreapi.get_operation_by_event_and_version(event, event.reprocessing["version"])
+    operation = coreapi.get_operation_by_event_and_version(event, event.version)
     if not operation:
         log("Operation not found")
         return

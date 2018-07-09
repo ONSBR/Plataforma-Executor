@@ -1,6 +1,7 @@
 import docker
 from sdk.utils import log
 from runner import settings
+import os
 import random
 client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 

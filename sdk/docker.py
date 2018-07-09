@@ -7,7 +7,7 @@ client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 
 
 def run_container(operation_instance, event_name):
-    delete_container = os.getenv('REMOVE_CONTAINER_AFTER_EXECUTION', True)
+    delete_container = os.getenv('REMOVE_CONTAINER_AFTER_EXECUTION', "True") == "True"
     """
     """
     log("**********************************************************")
@@ -30,5 +30,5 @@ def run_container(operation_instance, event_name):
         network='plataforma_network',
         stdout=True,
         ports=ports,
-        remove=False
+        remove=delete_container
     )

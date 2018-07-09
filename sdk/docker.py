@@ -30,5 +30,5 @@ def run_container(operation_instance, event_name):
         network='plataforma_network',
         stdout=True,
         ports=ports,
-        remove=delete_container
+        remove=False
     )

@@ -7,11 +7,12 @@ client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 
 
 def run_container(operation_instance, event_name):
+    delete_container = os.getenv('REMOVE_CONTAINER_AFTER_EXECUTION', True)
     """
     """
     log("**********************************************************")
     log('Executing process app. instance id={process_instance_id} image={image}', process_instance_id=operation_instance["processInstanceId"], image=operation_instance["image"])
-    log(f'Container will be removed after execution? {os.getenv('REMOVE_CONTAINER_AFTER_EXECUTION', True)}')
+    log(f'Container will be removed after execution? {delete_container}')
     log("**********************************************************")
 
     ports = None

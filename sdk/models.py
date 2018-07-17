@@ -12,6 +12,7 @@ class Event:
         self.scope = kwargs.pop('scope', 'execution')
         self.branch = kwargs.pop('branch', 'master')
         self.systemId = kwargs.pop('systemId', None)
+        self.idempotencyKey = kwargs.pop('idempotencyKey', None)
         self.reproduction = kwargs.pop('reproduction', dict())
         self.reprocessing = kwargs.pop('reprocessing', dict())
         self.payload = kwargs.pop('payload', dict())

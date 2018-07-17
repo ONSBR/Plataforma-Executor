@@ -17,6 +17,7 @@ def start(event):
     if not operation:
         log("Operation not found")
         return
+    event.instanceId = process_instance["id"]
     if not process_memory.create_memory(process_instance, event):
         log(
             """

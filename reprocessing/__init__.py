@@ -8,15 +8,16 @@ from sdk.events import Event
 from sdk.docker import run_container
 
 def start(event):
+    operation = coreapi.get_operation_by_event_and_version(event, event.version)
+    if not operation:
+        log("""event {event} has no subscribers""",event=event)
+        return
     original_instance_id = event.reprocessing["instance_id"]
     original_instance = coreapi.get_process_instance_by_instance_id(original_instance_id)
     log(f"Creating new process instance to respond event {event.name}")
     log("""event {event}""",event=event)
     process_instance = coreapi.create_process_instance(original_instance, event)
-    operation = coreapi.get_operation_by_event_and_version(event, event.version)
-    if not operation:
-        log("Operation not found")
-        return
+
     event.instanceId = process_instance["id"]
     if not process_memory.create_memory(process_instance, event):
         log(

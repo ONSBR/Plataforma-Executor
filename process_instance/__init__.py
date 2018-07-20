@@ -28,6 +28,7 @@ def create(event):
         event.instanceId = process_instance["id"]
         event.version = operation["version"]
         event.image = operation["image"]
+        event.timestamp = process_instance["start_execution"]
         if not process_memory.create_memory(process_instance, event):
             log(
                 """

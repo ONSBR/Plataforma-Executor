@@ -4,6 +4,7 @@ from collections import namedtuple
 class Event:
     def __init__(self, name, **kwargs):
         self.name = name
+        self.timestamp = kwargs.pop('timestamp', None)
         self.instanceId = kwargs.pop('instanceId', None)
         self.reference_date = kwargs.pop('referenceDate', None)
         self.tag = kwargs.pop('tag', None)

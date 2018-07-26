@@ -12,7 +12,11 @@ def create(event):
     creates a new process instance based on event
     """
     log("--------------------------------------------------------------------------------------------------------------------")
-    operation = coreapi.get_operation_by_event_and_version(event,event.version)
+    if event.version:
+        operation = coreapi.get_operation_by_event_and_version(event,event.version)
+    else:
+        operation = coreapi.get_operation_by_event(event)
+
     if not operation:
         log(f"Event {event.name} with version {event.version} has no subscribers")
         log("--------------------------------------------------------------------------------------------------------------------")

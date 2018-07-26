@@ -15,9 +15,9 @@ def run_container(operation_instance, event_name):
     log(f'Container will be removed after execution? {delete_container}')
     log("**********************************************************")
 
-    ports = None
-    if settings.ENABLE_CONTAINER_DEBUG:
-        ports = {"9229":str(random.randrange(7000, 7999, 2))}
+    #ports = None
+    #if settings.ENABLE_CONTAINER_DEBUG:
+    ports = {"9229":str(random.randrange(7000, 7999, 2))}
 
     container = client.containers.run(
         operation_instance['image'],

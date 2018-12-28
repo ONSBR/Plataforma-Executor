@@ -11,7 +11,6 @@ def create(event):
     """
     creates a new process instance based on event
     """
-    log("--------------------------------------------------------------------------------------------------------------------")
     if event.version:
         operation = coreapi.get_operation_by_event_and_version(event,event.version)
     else:
@@ -19,7 +18,6 @@ def create(event):
 
     if not operation:
         log(f"Event {event.name} with version {event.version} has no subscribers")
-        log("--------------------------------------------------------------------------------------------------------------------")
         return
 
     if event.instanceId:
@@ -34,26 +32,11 @@ def create(event):
         event.image = operation["image"]
         event.timestamp = process_instance["startExecution"]
         if not process_memory.create_memory(process_instance, event):
-            log(
-                """
-                Could not create process memory.
-                Event: {event}
-                Process Instance: {process_instance}.
-                Process aborted.
-                """,
-                process_instance=process_instance, event=event)
-            log("--------------------------------------------------------------------------------------------------------------------\n\n")
+            log("""Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",process_instance=process_instance, event=event)
             return
 
     if not process_instance:
-        log("""
-            Could not create process instance.
-            Event: {event}
-            Data: {operation}.
-            Process aborted.
-            """,
-            event=event, operation=operation)
-        log("--------------------------------------------------------------------------------------------------------------------\n\n")
+        log("""Could not create process instance. Event: {event} Data: {operation}. Process aborted.""",event=event, operation=operation)
         return
 
     log(f"event scope is {event.scope}")

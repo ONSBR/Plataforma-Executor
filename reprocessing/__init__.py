@@ -20,23 +20,11 @@ def start(event):
 
     event.instanceId = process_instance["id"]
     if not process_memory.create_memory(process_instance, event):
-        log(
-            """
-            Could not create process memory.
-            Event: {event}
-            Process Instance: {process_instance}.
-            Process aborted.
-            """,
-            process_instance=process_instance, event=event)
+        log("""Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",process_instance=process_instance, event=event)
         return
 
     if not process_instance:
-        log("""
-            Could not create process instance.
-            Event: {event}
-            Process aborted.
-            """,
-            event=event)
+        log("""Could not create process instance. Event: {event} Process aborted.""",event=event)
         return
 
     log(f"event scope is {event.scope}")

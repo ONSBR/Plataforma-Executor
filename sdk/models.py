@@ -9,6 +9,7 @@ class Event:
         self.reference_date = kwargs.pop('referenceDate', None)
         self.tag = kwargs.pop('tag', None)
         self.version  = kwargs.pop('version', None)
+        self.owner = kwargs.pop('owner', 'anonymous')
         self.image = kwargs.pop('image', None)
         self.scope = kwargs.pop('scope', 'execution')
         self.branch = kwargs.pop('branch', 'master')

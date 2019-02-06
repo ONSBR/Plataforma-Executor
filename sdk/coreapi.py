@@ -80,6 +80,7 @@ def create_process_instance(operation, event):
             "origin_event_name": event.name,
             "baseline": event.branch,
             "scope": event.scope,
+            "owner": event.owner,
             "startExecution": str(datetime.datetime.utcnow()),
             "status": "created",
             "_metadata": {

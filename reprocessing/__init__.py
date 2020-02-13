@@ -20,7 +20,8 @@ def start(event):
     process_instance = coreapi.create_process_instance(original_instance, event)
 
     event.instanceId = process_instance["id"]
-    event = dumps(event.__dict__)
+    event = {k: v for k, v in event.__dict__ if v is not None}
+    # event = dumps(event)
 
     if not process_memory.create_memory(process_instance['id'], event):
         log("""Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",process_instance=process_instance, event=event)

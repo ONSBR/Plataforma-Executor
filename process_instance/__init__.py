@@ -31,9 +31,8 @@ def create(event):
         event.version = operation["version"]
         event.image = operation["image"]
         event.timestamp = process_instance["startExecution"]
-        event = {k: v for k, v in event.__dict__ if v is not None}
 
-        if not process_memory.create_memory(process_instance["id"], event):
+        if not process_memory.create_memory(process_instance["id"], event.__dict__ ):
             log("""Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",process_instance=process_instance, event=event)
             return
 

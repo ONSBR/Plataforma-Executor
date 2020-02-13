@@ -20,6 +20,7 @@ class DockerProcessor:
         """
         Process receives an event an tries to get a subcribed operation.
         """
+        print(event)
         log("============================================================================================")
         log('Processing event {event}', event=event.name)
         log("\n")

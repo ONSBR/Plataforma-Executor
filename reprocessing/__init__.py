@@ -6,6 +6,7 @@ import execution
 from sdk.docker import run_container
 from sdk.events import Event
 from sdk.docker import run_container
+from json import dumps
 
 def start(event):
     operation = coreapi.get_operation_by_event_and_version(event, event.version)
@@ -19,7 +20,8 @@ def start(event):
     process_instance = coreapi.create_process_instance(original_instance, event)
 
     event.instanceId = process_instance["id"]
-    if not process_memory.create_memory(process_instance, event):
+
+    if not process_memory.create_memory(process_instance['id'], event.__dict__):
         log("""Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",process_instance=process_instance, event=event)
         return
 

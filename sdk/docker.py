@@ -3,6 +3,7 @@ from sdk.utils import log
 from runner import settings
 import os
 import random
+
 client = docker.DockerClient(base_url='unix://var/run/docker.sock')
 
 
@@ -11,13 +12,16 @@ def run_container(operation_instance, event_name):
     """
     """
     log("**********************************************************")
-    log('Executing process app. instance id={process_instance_id} image={image}', process_instance_id=operation_instance["processInstanceId"], image=operation_instance["image"])
+    log('Executing process app. instance id={process_instance_id} image={image}',
+        process_instance_id=operation_instance["processInstanceId"], image=operation_instance["image"])
     log(f'Container will be removed after execution? {delete_container}')
     log("**********************************************************")
 
-    #ports = None
-    #if settings.ENABLE_CONTAINER_DEBUG:
-    ports = {"9229":str(random.randrange(7000, 7999, 2))}
+    # ports = None
+    # if settings.ENABLE_CONTAINER_DEBUG:
+    ports = {"9229": str(random.randrange(7000, 7999, 2))}
+
+    is_reprocessing = 'is_reprocessing' in operation_instance.keys() and operation_instance['is_reprocessing'] == True
 
     container = client.containers.run(
         operation_instance['image'],
@@ -25,6 +29,7 @@ def run_container(operation_instance, event_name):
             "INSTANCE_ID": operation_instance["processInstanceId"],
             "PROCESS_ID": operation_instance["processId"],
             "SYSTEM_ID": operation_instance["systemId"],
+            "IS_REPROCESSING": is_reprocessing,
             "EVENT": event_name
         },
         network='plataforma_network',

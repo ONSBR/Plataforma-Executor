@@ -32,4 +32,5 @@ def start(event):
     log(f"event scope is {event.scope}")
     log(f"running image {operation['image']} for event {event.name} with version {event.version}")
     operation_instance = coreapi.create_operation_instance(operation, event.name, process_instance["id"])
+    operation_instance['is_reprocessing'] = event.scope == 'reprocessing'
     run_container(operation_instance,event.name)

@@ -56,7 +56,7 @@ python-language-server==0.14.0
 python-mimeparse==1.6.0
 pytz==2018.4
 PyYAML==5.1
-requests==2.18.4
+requests==2.20.0
 rope==0.10.7
 simplegeneric==0.8.1
 six==1.11.0

@@ -64,7 +64,7 @@ snowballstemmer==1.2.1
 SQLAlchemy==1.2.2
 SQLAlchemy-Utils==0.33.0
 traitlets==4.3.2
-urllib3==1.22
+urllib3==1.24.2
 vine==1.1.4
 wcwidth==0.1.7
 websocket-client==0.46.0

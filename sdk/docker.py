@@ -20,7 +20,8 @@ def run_container(operation_instance, event_name):
     # ports = None
     # if settings.ENABLE_CONTAINER_DEBUG:
     ports = {"9229": str(random.randrange(7000, 7999, 2))}
-
+    log(f'Container version: {operation_instance["version"]}')
+    log(f'Container image: {operation_instance["image"]}')
     is_reprocessing = 'is_reprocessing' in operation_instance.keys() and operation_instance['is_reprocessing'] == True
 
     container = client.containers.run(

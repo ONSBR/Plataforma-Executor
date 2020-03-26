@@ -30,7 +30,8 @@ def run_container(operation_instance, event_name):
             "PROCESS_ID": operation_instance["processId"],
             "SYSTEM_ID": operation_instance["systemId"],
             "IS_REPROCESSING": is_reprocessing,
-            "EVENT": event_name
+            "EVENT": event_name,
+            "VERSION": operation_instance["version"]
         },
         network='plataforma_network',
         stdout=True,

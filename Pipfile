@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+ons-platform-python-sdk = {ref = "coreapi_integration",git = "https://github.com/onsplatform/platform_sdk.git",editable = true}
 alembic = "==0.9.7"
 amqp = "==1.4.9"
 anyjson = "==0.3.3"

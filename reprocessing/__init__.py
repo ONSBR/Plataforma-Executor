@@ -13,6 +13,12 @@ def start(event):
     if not operation:
         log("""event {event} has no subscribers""",event=event)
         return
+
+    app_version = schema.get_app_version(event.reference_date, operation["processId"])
+    if app_version:
+        operation["version"] = app_version[0]["version"]
+        operation["image"] = app_version[0]["tag"]
+
     original_instance_id = event.reprocessing["instance_id"]
     original_instance = coreapi.get_process_instance_by_instance_id(original_instance_id)
     log(f"Creating new process instance to respond event {event.name}")
@@ -33,10 +39,5 @@ def start(event):
     log(f"running image {operation['image']} for event {event.name} with version {event.version}")
     operation_instance = coreapi.create_operation_instance(operation, event.name, process_instance["id"])
     operation_instance['is_reprocessing'] = event.scope == 'reprocessing'
-
-    app_version = schema.get_app_version(event.reference_date, operation["processId"])
-    if app_version:
-        operation_instance["operation_instance"]["version"] = app_version[0]["version"]
-        operation_instance["operation_instance"]["image"] = app_version[0]["tag"]
 
     run_container(operation_instance,event.name)

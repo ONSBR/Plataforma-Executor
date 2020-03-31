@@ -23,6 +23,11 @@ def create(event):
         log(f"Event {event.name} with version {event.version} has no subscribers")
         return
 
+    app_version = schema.get_app_version(event.reference_date, operation["processId"])
+    if app_version:
+        operation["version"] = app_version[0]["version"]
+        operation["image"] = app_version[0]["tag"]
+
     if event.instanceId:
         log(f"Event {event.name} already have a instance id={event.instanceId}")
         process_instance = coreapi.get_process_instance_by_instance_id(
@@ -66,10 +71,5 @@ def create(event):
         result["process_instance"] = process_instance
     if operation_instance:
         result["operation_instance"] = operation_instance
-
-    app_version = schema.get_app_version(event.reference_date, operation["processId"])
-    if app_version:
-        result["operation_instance"]["version"] = app_version[0]["version"]
-        result["operation_instance"]["image"] = app_version[0]["tag"]
 
     return result

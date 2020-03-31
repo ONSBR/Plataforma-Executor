@@ -3,6 +3,9 @@ import os
 PROCESS_MEMORY_URL = f"http://{os.getenv('PROCESS_MEMORY_URL', 'localhost')}"
 PROCESS_MEMORY_PORT = os.getenv('PROCESS_MEMORY_PORT', 9091)
 
+SCHEMA_URL = f"http://{os.getenv('SCHEMA_URL', 'localhost')}"
+SCHEMA_PORT = os.getenv('SCHEMA_PORT', 9092)
+
 COREAPI_URL = f"http://{os.getenv('COREAPI_URL', 'localhost')}"
 COREAPI_PORT = os.getenv('COREAPI_PORT', 9110)
 

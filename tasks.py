@@ -11,7 +11,7 @@ app = Celery('tasks', broker=f'pyamqp://{RABBITMQ_USERNAME}:{RABBITMQ_PASSWORD}@
 @app.task(serializer='json', bind=True)
 def process(tsk, dict_event):
     try:
-        DEBUG = os.environ.get("DEBUG_MODE", False)
+        DEBUG = os.environ.get("DEBUG_MODE", True)
         event = Event(**dict_event)
         if event.name in {"system.executor.enable.debug", "system.executor.disable.debug"}:
             if event.name == "system.executor.enable.debug":

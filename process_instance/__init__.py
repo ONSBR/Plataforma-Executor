@@ -1,5 +1,6 @@
-from sdk import coreapi, process_memory, events
+from sdk import coreapi, process_memory, events, schema
 from sdk.utils import log
+from datetime import datetime
 from runner import settings
 from runner import exceptions
 import execution
@@ -7,14 +8,14 @@ from sdk.docker import run_container
 from sdk.events import Event
 from json import dumps
 
+
 def create(event):
     """
     creates a new process instance based on event
     """
     log(f"Version: {event.version}")
-    log(event)
     if event.version:
-        operation = coreapi.get_operation_by_event_and_version(event,event.version)
+        operation = coreapi.get_operation_by_event_and_version(event, event.version)
     else:
         operation = coreapi.get_operation_by_event(event)
 
@@ -34,12 +35,15 @@ def create(event):
         event.image = operation["image"]
         event.timestamp = process_instance["startExecution"]
 
-        if not process_memory.create_memory(process_instance["id"], event.__dict__ ):
-            log("""Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",process_instance=process_instance, event=event)
+        if not process_memory.create_memory(process_instance["id"], event.__dict__):
+            log(
+                """Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",
+                process_instance=process_instance, event=event)
             return
 
     if not process_instance:
-        log("""Could not create process instance. Event: {event} Data: {operation}. Process aborted.""",event=event, operation=operation)
+        log("""Could not create process instance. Event: {event} Data: {operation}. Process aborted.""", event=event,
+            operation=operation)
         return
 
     log(f"event scope is {event.scope}")
@@ -49,7 +53,8 @@ def create(event):
         # recupera a operation que foi executada para uma determinada instancia do processo
         log(f"instance id={process_instance['id']} event={event.name}")
         reproduction_instance = coreapi.get_reproduction_by_instance_id(process_instance["id"])
-        operation_instance = coreapi.get_operation_instance_by_instance_id_and_event(reproduction_instance["originalId"], event.name)
+        operation_instance = coreapi.get_operation_instance_by_instance_id_and_event(
+            reproduction_instance["originalId"], event.name)
         operation_instance.pop("id")
         operation_instance["processInstanceId"] = process_instance["id"]
         coreapi.create_operation_instance(operation_instance, event.name, process_instance["id"])
@@ -61,5 +66,10 @@ def create(event):
         result["process_instance"] = process_instance
     if operation_instance:
         result["operation_instance"] = operation_instance
-    return result
 
+    app_version = schema.get_app_version(event.reference_date, operation["processId"])
+    if app_version:
+        result["operation_instance"]["version"] = app_version[0]["version"]
+        result["operation_instance"]["image"] = app_version[0]["tag"]
+
+    return result

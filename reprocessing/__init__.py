@@ -1,4 +1,4 @@
-from sdk import coreapi, process_memory, events
+from sdk import coreapi, process_memory, events, schema
 from sdk.utils import log
 from runner import settings
 from runner import exceptions
@@ -33,5 +33,10 @@ def start(event):
     log(f"running image {operation['image']} for event {event.name} with version {event.version}")
     operation_instance = coreapi.create_operation_instance(operation, event.name, process_instance["id"])
     operation_instance['is_reprocessing'] = event.scope == 'reprocessing'
+
+    app_version = schema.get_app_version(event.reference_date, operation["processId"])
+    if app_version:
+        operation_instance["operation_instance"]["version"] = app_version[0]["version"]
+        operation_instance["operation_instance"]["image"] = app_version[0]["tag"]
 
     run_container(operation_instance,event.name)

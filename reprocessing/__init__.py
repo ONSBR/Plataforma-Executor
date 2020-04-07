@@ -10,14 +10,14 @@ from json import dumps
 
 
 def start(event):
-    log(f"Repro Version: {event.version} an reference_date: {event.reference_date}")
+    log(f"Repro Version: {event.version} an reference_date: {event.referenceDate}")
 
     operation = coreapi.get_operation_by_event_and_version(event, event.version)
     if not operation:
         log("""event {event} has no subscribers""", event=event)
         return
 
-    app_version = schema.get_app_version(event.reference_date, operation["processId"])
+    app_version = schema.get_app_version(event.referenceDate, operation["processId"])
     if app_version:
         operation["version"] = app_version[0]["version"]
         operation["image"] = app_version[0]["tag"]

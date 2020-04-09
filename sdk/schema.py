@@ -4,8 +4,8 @@ from datetime import datetime
 
 
 def get_app_version(reference_date, processId):
-    date_format = '%Y-%m-%d %H:%M:%SZ'
-    date_format_return = '%Y-%m-%dT%H:%M:%SZ'
+    date_format = '%Y-%m-%d %H:%M:%S.%fZ'
+    date_format_return = '%Y-%m-%dT%H:%M:%S.%fZ'
     if reference_date:
         reference_date = datetime.strptime(reference_date, date_format_return)
         referenceDate = reference_date.date().strftime(date_format)

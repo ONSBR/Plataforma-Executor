@@ -10,6 +10,7 @@ from json import dumps
 
 
 def create(event):
+    date_format = '%Y-%m-%dT%H:%M:%S.%fZ'
     """
     creates a new process instance based on event
     """
@@ -38,8 +39,11 @@ def create(event):
         event.instanceId = process_instance["id"]
         event.version = operation["version"]
         event.image = operation["image"]
-        event.timestamp = process_instance["startExecution"]
+        
+        data = datetime.strptime(process_instance["startExecution"], '%Y-%m-%dT%H:%M:%S.%f')
 
+        event.timestamp = data.strftime(date_format)
+        
         if not process_memory.create_memory(process_instance["id"], event.__dict__):
             log(
                 """Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",

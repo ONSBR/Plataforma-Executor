@@ -74,6 +74,10 @@ def create_process_instance(operation, event):
     """
     creates a new process execution instance.
     """
+    date_format = '%Y-%m-%dT%H:%M:%S.%fZ'
+
+    start_execution = datetime.datetime.utcnow().strftime(date_format)
+
     result = persist([{
             "systemId": operation['systemId'],
             "processId": operation['processId'],
@@ -81,7 +85,7 @@ def create_process_instance(operation, event):
             "baseline": event.branch,
             "scope": event.scope,
             "owner": event.owner,
-            "startExecution": str(datetime.datetime.utcnow()),
+            "startExecution": start_execution,
             "status": "created",
             "_metadata": {
                 "type": "processInstance",

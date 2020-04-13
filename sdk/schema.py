@@ -5,12 +5,12 @@ from datetime import datetime
 
 def get_app_version(reference_date, processId):
     date_format = '%Y-%m-%dT%H:%M:%S.%fZ'
+    
+    referenceDate = reference_date
 
-    if reference_date:
-        referenceDate = reference_date.date().strftime(date_format)
-    else:
+    if not reference_date:
         referenceDate = datetime.today().strftime(date_format)
-
+        
     return get_appversion_by_validity(processId, referenceDate)
 
 

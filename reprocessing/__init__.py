@@ -10,7 +10,7 @@ from json import dumps
 
 
 def start(event):
-    log(f"Repro Version: {event.version} an reference_date: {event.referenceDate}")
+    log(f"Version: {event.version} and reference_date: {event.referenceDate} and processId {event.processId}")
 
     operation = coreapi.get_operation_by_event_and_version(event, event.version)
     if not operation:

@@ -7,6 +7,8 @@ class Event:
         self.timestamp = kwargs.pop('timestamp', None)
         self.instanceId = kwargs.pop('instanceId', None)
         self.referenceDate = kwargs.pop('referenceDate', None)
+        self.processId = kwargs.pop('processId', None)
+        self.operationId = kwargs.pop('operationId', None)
         self.tag = kwargs.pop('tag', None)
         self.version  = kwargs.pop('version', None)
         self.owner = kwargs.pop('owner', 'anonymous')

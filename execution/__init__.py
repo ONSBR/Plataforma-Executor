@@ -1,11 +1,7 @@
-from sdk import coreapi, process_memory, events
-from sdk.utils import log
-from runner import settings
-from runner import exceptions
-import execution
 import process_instance
+
+from sdk.utils import log
 from sdk.docker import run_container
-from sdk.events import Event
 
 def start(event):
     result = process_instance.create(event)

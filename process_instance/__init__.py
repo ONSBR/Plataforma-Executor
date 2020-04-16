@@ -14,8 +14,10 @@ def create(event):
     """
     creates a new process instance based on event
     """
-    log(f"Version: {event.version} an reference_date: {event.referenceDate}")
-    if event.version:
+    log(f"Version: {event.version} and reference_date: {event.referenceDate} and processId {event.processId}")
+    if event.operationId:
+        operation = coreapi.get_operation_by_id(event)
+    elif event.version:
         operation = coreapi.get_operation_by_event_and_version(event, event.version)
     else:
         operation = coreapi.get_operation_by_event(event)

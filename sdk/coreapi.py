@@ -20,6 +20,19 @@ def get_operation_by_event(event):
     if not result.has_error and result.data:
         return result.data[0]
 
+
+def get_operation_by_id(event):
+    """ Retrieves the operation subscribed to an event by id.
+    """
+    result = HttpClient.get(
+        f"{settings.COREAPI_URL}:{settings.COREAPI_PORT}/core/operation?filter=byId&id={event.operationId}")
+
+    if not result.has_error and result.data:
+        return result.data[0]
+
+
+
+
 def get_operation_by_event_and_version(event, version):
     """ Retrieves the operation subscribed to an event.
     """

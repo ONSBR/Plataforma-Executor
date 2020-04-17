@@ -30,6 +30,9 @@ def create(event):
     if app_version:
         operation["version"] = app_version[0]["version"]
         operation["image"] = app_version[0]["tag"]
+    else:
+        log(f"Event {event.name} with version {event.version} has no subscribers")
+        return
 
     if event.instanceId:
         log(f"Event {event.name} already have a instance id={event.instanceId}")

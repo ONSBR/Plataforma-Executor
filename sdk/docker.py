@@ -33,7 +33,8 @@ def run_container(operation_instance, event_name):
                 "SYSTEM_ID": operation_instance["systemId"],
                 "IS_REPROCESSING": is_reprocessing,
                 "EVENT": event_name,
-                "VERSION": operation_instance["version"]
+                "VERSION": operation_instance["version"],
+                "TAG": operation_instance['image']
             },
             network='plataforma_network',
             stdout=True,

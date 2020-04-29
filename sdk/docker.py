@@ -25,7 +25,8 @@ def run_container(operation_instance, event_name):
             "INSTANCE_ID": operation_instance["processInstanceId"],
             "PROCESS_ID": operation_instance["processId"],
             "SYSTEM_ID": operation_instance["systemId"],
-            "EVENT": event_name
+            "EVENT": event_name,
+            "TAG": operation_instance['image']
         },
         network='plataforma_network',
         stdout=True,

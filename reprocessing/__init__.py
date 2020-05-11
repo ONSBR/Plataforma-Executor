@@ -37,6 +37,7 @@ def start(event):
     process_instance = coreapi.create_process_instance(original_instance, event)
 
     event.instanceId = process_instance["id"]
+    event["reprocessing"]["to"] = process_instance["id"]
 
     if not process_memory.create_memory(process_instance['id'], event.__dict__):
         log(

@@ -8,13 +8,10 @@ class Event:
         return evt.name in Event.SYSTEM_EVENT_LIST
 
     def is_reproduction(self, evt):
-        """ check if a received event is a reprodcution event by looking on event name
-        and event payload """
-        if evt.name != Event.REPRODUCTION_EVENT:
+        """ check if a received event is a reprocessing event by looking on event scope """
+        if evt.scope != "reproduction":
             return False
-        if evt.reproduction != dict() and ("instance_id" and "owner" in evt.reproduction):
-            return True
-        return False
+        return True
 
     def is_reprocessing(self, evt):
         """ check if a received event is a reprocessing event by looking on event scope """

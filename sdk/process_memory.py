@@ -19,8 +19,8 @@ def first_commit(instance_id):
     """ return first commit from instance id  """
     result = HttpClient.get(
         f"{settings.PROCESS_MEMORY_URL}:{settings.PROCESS_MEMORY_PORT}/{instance_id}/head")
-    if len(result.data) > 0:
-        return result.data[0]
+    if result.data:
+        return result.data
     return None
 
 def clone(from_instance_id, to_instance_id):

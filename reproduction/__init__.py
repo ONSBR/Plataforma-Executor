@@ -35,7 +35,7 @@ def dispatch(event):
         return False
 
     original_event = original_event["event"]
-    name = original_event.pop("name")
+    name = original_event["name"]
     original_event["scope"] = "reproduction"
 
     # Cria instancia de processo para a reproducao no core API

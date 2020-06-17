@@ -35,7 +35,7 @@ def dispatch(event):
         return False
 
     original_event = original_event["event"]
-    name = original_event["name"]
+    name = original_event.pop("name")
     original_event["scope"] = "reproduction"
 
     # Cria instancia de processo para a reproducao no core API
@@ -50,7 +50,8 @@ def dispatch(event):
     # if not clone(original_instance["id"], process_instance["id"]):
     #   log(f"Cannot clone origin process memory from instance {original_instance['id']} and event {name}")
     #    return False
-
+    
+    original_event["name"] = name
     original_event["instanceId"] = process_instance["id"]
     original_event["header"]["instanceId"] = process_instance["id"]
     event.reproduction["to"] = process_instance["id"]

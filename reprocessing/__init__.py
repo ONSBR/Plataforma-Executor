@@ -29,7 +29,7 @@ def start(event):
         operation["image"] = app_version[0]["tag"]
 
     original_instance_id = event.reprocessing["instance_id"]
-    if original_instance_id:
+    if original_instance_id and original_instance_id != "deploy":
         original_instance = coreapi.get_process_instance_by_instance_id(original_instance_id)
     else:
         """Reprocess without original instance"""

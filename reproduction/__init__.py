@@ -54,7 +54,7 @@ def dispatch(event):
     original_event["name"] = name
     original_event["instanceId"] = process_instance["id"]
     original_event["header"]["instanceId"] = process_instance["id"]
-    event.reproduction["to"] = process_instance["id"]
+    original_event["reproduction"]["to"] = process_instance["id"]
 
     if not process_memory.create_memory(process_instance['id'], original_event):
         log(

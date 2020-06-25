@@ -26,6 +26,9 @@ def create(event):
         log(f"Event {event.name} with version {event.version} has no subscribers")
         return
 
+    if not event.referenceDate:
+        event.referenceDate = datetime.today().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+
     app_version = schema.get_app_version(event.referenceDate, operation["processId"])
     if app_version:
         operation["version"] = app_version[0]["version"]

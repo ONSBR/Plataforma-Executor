@@ -2,6 +2,7 @@ from sdk import coreapi, process_memory, events, schema
 from sdk.utils import log
 from runner import settings
 from runner import exceptions
+from datetime import datetime
 import execution
 from sdk.docker import run_container
 from sdk.events import Event
@@ -22,6 +23,9 @@ def start(event):
     if not operation:
         log("""event {event} has no subscribers""", event=event)
         return
+
+    if not event.referenceDate:
+        event.referenceDate = datetime.today().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
     app_version = schema.get_app_version(event.referenceDate, operation["processId"])
     if app_version:

@@ -55,7 +55,7 @@ def dispatch(event):
     original_event["instanceId"] = process_instance["id"]
     original_event["header"]["instanceId"] = process_instance["id"]
     original_event["reproduction"]["to"] = process_instance["id"]
-    original_event["reproduction"]["from"] = event["reproduction"]["from"]
+    original_event["reproduction"]["from"] = event.reproduction["from"]
     
     if not process_memory.create_memory(process_instance['id'], original_event):
         log("""Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",

@@ -7,9 +7,11 @@ from sdk.docker import run_container
 from sdk.events import Event
 from sdk.docker import run_container
 from json import dumps
+from datetime import datetime
 
 
 def start(event):
+    date_format = '%Y-%m-%dT%H:%M:%S.%fZ'
     log(f"Version: {event.version} and reference_date: {event.referenceDate} and processId {event.processId}")
 
     if event.operationId:
@@ -44,7 +46,9 @@ def start(event):
 
     event.instanceId = process_instance["id"]
     event.reprocessing["to"] = process_instance["id"]
+    data = datetime.strptime(process_instance["startExecution"], '%Y-%m-%dT%H:%M:%S.%f')
 
+    event.timestamp = data.strftime(date_format)
     if not process_memory.create_memory(process_instance['id'], event.__dict__):
         log(
             """Could not create process memory. Event: {event} Process Instance: {process_instance}. Process aborted.""",

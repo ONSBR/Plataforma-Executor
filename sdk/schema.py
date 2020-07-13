@@ -3,15 +3,8 @@ from sdk import settings
 from datetime import datetime
 
 
-def get_app_version(reference_date, processId):
-    date_format = '%Y-%m-%dT%H:%M:%S.%fZ'
-    
-    referenceDate = reference_date
-
-    if not reference_date:
-        referenceDate = datetime.today().strftime(date_format)
-        
-    return get_appversion_by_validity(processId, referenceDate)
+def get_app_version(reference_date, processId):        
+    return get_appversion_by_validity(processId, reference_date)
 
 
 def get_appversion_by_validity(process_id, date):
